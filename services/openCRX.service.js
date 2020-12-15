@@ -1,11 +1,3 @@
-/*          _           
-  __ ___  _(_) ___  ___ 
- / _` \ \/ / |/ _ \/ __|
-| (_| |>  <| | (_) \__ \
- \__,_/_/\_\_|\___/|___/
-                        
-*/
-
 const axios = require('axios');
 
 const baseUrl = 'https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX';
@@ -34,10 +26,21 @@ async function getAccountById(id) {
     return res.data;
 }
 
+async function getAllSalesOrder() {
+    console.log(`[GET] ...openCRX all SalesOrder`);
+    let res = await axios.get(`${baseUrl}/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder`, config);
+    return res.data;
+}
+
 
 
 const testId = "9DXSJ5D62FBHLH2MA4T2TYJFL";
 
+getAllSalesOrder()
+    .then(res => console.log(res))
+    .catch(error => console.log(error))
+
+/*
 getAccountById(testId)
     .then(data => {
         console.log('\x1b[36m%s\x1b[0m', "[Info]", "Sucess! Here's the data");
@@ -46,4 +49,4 @@ getAccountById(testId)
     })
     .then(data => console.log(`[Info] The AccountRating is: ${data.accountRating}`));
 
-
+*/

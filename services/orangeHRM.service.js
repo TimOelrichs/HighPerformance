@@ -1,10 +1,3 @@
-/*          _           
-  __ ___  _(_) ___  ___ 
- / _` \ \/ / |/ _ \/ __|
-| (_| |>  <| | (_) \__ \
- \__,_/_/\_\_|\___/|___/
-                        
-*/
 
 const axios = require('axios');
 const { RSA_NO_PADDING } = require('constants');
@@ -43,7 +36,7 @@ async function getOrangeHRMToken() {
 
 
 async function getAllEmployees() {
-    console.log(`[GET] All Employee:`)
+    console.log(`[GET] OrangeHRM All Employees:`)
     let res = await axios.get(`${baseUrl}/api/v1/employee/search`, config);
     //console.log(res.data);
     return res.data;
@@ -72,32 +65,53 @@ async function postEmployeeBonusSalary(id, body) {
 }
 
 async function getEmployeeDetailsById(id) {
+    
     return axios.get(`${baseUrl}/api/v1/employee/${id}/job-details`, config);
 }
 
 
-function getEmployeeRels(id) {
-    console.log(`[GET] Employee Rels by Id: ${id}`)
-    return axios.all([
-        axios.get(`${baseUrl}/api/v1/employee/${id}/job-details`, config),
-        axios.get(`${baseUrl}/api/v1/employee/${id}/contact-details`, config)
-      ])
+async function getEmployeeContactDetails(id) {
+    console.log(`[GET] Employee Contact-Details by Id: ${id}`)
+    let res = await axios.get(`${baseUrl}/api/v1/employee/${id}/contact-detail`, config)
+    console.log(res);
+    return res.data;
 }
 
 
 
+const id = 9;
 
-const id = 2;
+exports.getOrangeHRMToken = getOrangeHRMToken
+exports.getAllEmployees = getAllEmployees
+
+/*
+getOrangeHRMToken()
+    .then(() => getAllEmployees())
+    .then(res => res.data.filter((employee => employee.unit === "Sales")))
+    .catch((error) => console.log(error) )
 
 
 getOrangeHRMToken()
     .then(() => getAllEmployees())  
     .then(() => getEmployeeById(id))
-    .then(() => getEmployeeBonusSalaryById(id))
-    .then(() => postEmployeeBonusSalary(id, qs.stringify({ year: "2017", value: "1" })))
-    .then(() => getEmployeeBonusSalaryById(id))
+    //.then(() => getEmployeeBonusSalaryById(id))
+    //.then(() => postEmployeeBonusSalary(id, qs.stringify({ year: "2017", value: "1" })))
+    //.then(() => getEmployeeBonusSalaryById(id))
+    .then(() => getEmployeeContactDetails(id))
     .catch(() => console.log("OhOh!"));
 
+/*
+getOrangeHRMToken()
+    .then(() => getEmployeeContactDetails(id)) 
+    .catch((error) => console.log(error))
+*/
+/*
+getOrangeHRMToken()
+    .then(() => getAllEmployees())
+    //.then(res => res.data.filter((employee => employee.unit === "Sales")))
+    .then(res => console.log(res))
+    .catch(() => console.log("OhOh!"));
+*/
 
 /*
 getOrangeHRMToken()
