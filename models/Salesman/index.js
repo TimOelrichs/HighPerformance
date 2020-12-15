@@ -1,10 +1,12 @@
 require('../dbConnect');
 
 var SalesmanSchema = new Schema({
-    lastname: String,
-    firstname: String,
-    sid: Number,
+    fullName: String,
+    employeeId: Number,
+    orangeHRMId: Number,
     department: String,
+    jobTitle: String,
+    imgUrl: String
 });
 
 exports.Salesman = mongoose.model('Salesman', SalesmanSchema);

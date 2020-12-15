@@ -12,11 +12,12 @@ const config = {
     auth: credentials,
 };
 
-async function getCustomers() {
+async function getAllAcounts() {
     const contacts = await axios.get(`${baseUrl}/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account`, config);
-    console.log(contacts);
+    //console.log(contacts);
     const customers = contacts.data.objects;
-    console.log(customers);
+    //console.log(customers);
+    return contacts.data
 }
 
 async function getAccountById(id) {
@@ -36,10 +37,15 @@ async function getAllSalesOrder() {
 
 const testId = "9DXSJ5D62FBHLH2MA4T2TYJFL";
 
+/*
 getAllSalesOrder()
-    .then(res => console.log(res))
+    .then(res => console.log(res.objects[1]))
     .catch(error => console.log(error))
+*/
 
+getAllAcounts()
+    .then((res) => console.log(res))
+    .catch((error) => console.log(error))
 /*
 getAccountById(testId)
     .then(data => {
