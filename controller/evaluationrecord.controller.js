@@ -4,7 +4,7 @@ const model = require('../models/EvaluationRecord')
 exports.create = (req, res) => {
     console.log("[Post]");
     console.log(req.body);
-    model.create(req.body).then(function (result) {
+    model.create(req.body).then((result) => {
         res.status(201).send(result);
     }).catch(() => {
         console.log("Ohh, couldn't create ");
