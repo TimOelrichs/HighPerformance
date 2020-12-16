@@ -1,16 +1,14 @@
-let config = require("../models/dbConnect")
-let { getAllSalesForSalesman } = require("../services/openCRX.service")
-let SalesmanController = require("../controller/salesman.controller")
 
-var mongoDB = `mongodb://${config.HOST}:${config.PORT}/${config.DBNAME}`;
+let { getAllSalesForSalesman } = require("../services/openCRX.service")
+const model = require('../models/Salesman');
 
 async function importSalesOrderImport() {
     let allSalesmen;
     model.find({}).then(result => {
-        allSalesmen = result
+        allSalesmen = result;
         console.log(allSalesmen);
 
-    }
+    })
 }
 
 importSalesOrderImport()
