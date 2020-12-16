@@ -84,13 +84,14 @@ const id = 9;
 exports.getOrangeHRMToken = getOrangeHRMToken
 exports.getAllEmployees = getAllEmployees
 
-/*
+
 getOrangeHRMToken()
     .then(() => getAllEmployees())
     .then(res => res.data.filter((employee => employee.unit === "Sales")))
+    .then(res => console.log(res))
     .catch((error) => console.log(error) )
 
-
+/*
 getOrangeHRMToken()
     .then(() => getAllEmployees())  
     .then(() => getEmployeeById(id))
