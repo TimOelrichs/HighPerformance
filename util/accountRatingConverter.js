@@ -1,5 +1,5 @@
 
-function transformRating(rating) {
+exports.transformRating = (rating) => {
     switch (rating) {
         case 3:
             return "good"
@@ -8,8 +8,6 @@ function transformRating(rating) {
         case 1:
             return "execellent"
         default:
-            return "unknow accoutRating"
+            return "unknow accountRating"
     }
 } 
-
-exports.transformRating = transformRating
