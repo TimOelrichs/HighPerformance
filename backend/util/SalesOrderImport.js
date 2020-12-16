@@ -1,6 +1,6 @@
 
 let { getAllSalesForSalesman } = require("../services/openCRX.service")
-const model = require('../models/Salesman');
+const { model } = require('../models/Salesman');
 
 async function importSalesOrderImport() {
     let allSalesmen;
@@ -8,7 +8,7 @@ async function importSalesOrderImport() {
         allSalesmen = result;
         console.log(allSalesmen);
 
-    })
+    }).catch(err => console.log(err))
 }
 
 importSalesOrderImport()

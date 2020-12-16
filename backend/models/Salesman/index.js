@@ -13,6 +13,6 @@ var SalesmanSchema = new Schema({
     imgUrl: String
 });
 
-exports.Salesman = mongoose.model('Salesman', SalesmanSchema);
+exports.model = mongoose.model('Salesman', SalesmanSchema);
 
 exports.SalesmanSchema = SalesmanSchema

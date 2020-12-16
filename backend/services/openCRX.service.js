@@ -75,7 +75,7 @@ const testId = "9ENFSDRCBESBTH2MA4T2TYJFL";
 //const testId = "L0NTAXG7TQTPM0EBHQA5MAZ7J";
 var sales = {}
 
-getAllSalesForSalesman(testId)
+//getAllSalesForSalesman(testId)
 
 function transformSalesObject(sales) {
     let result = {};

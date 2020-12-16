@@ -1,6 +1,6 @@
 let { getOrangeHRMToken, getAllEmployees } = require("../services/orangeHRM.service");
 let {getAllAcounts} = require("../services/openCRX.service")
-const { Salesman } = require('../models/Salesman')
+const { model } = require('../models/Salesman')
 
 async function importSalesman() {
     console.log("[Info] Ready to import Salesman from OrangeHRM and openCRX to MongoDB");
@@ -45,7 +45,7 @@ async function importSalesman() {
     
     console.log("[Info] ...save Salesman to MongoDB");
     salesmen.forEach(sm => {
-        Salesman.create(sm)
+        model.create(sm)
             .then((res) => console.log("saved ", sm.fullName))
             .catch(() => {
             console.log("Ohh, couldn't create ", sm.fullName);

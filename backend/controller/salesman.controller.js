@@ -1,4 +1,4 @@
-const model = require('../models/Salesman')
+const { model } = require('../models/Salesman')
 
 //Create and Save a new Salesman
 exports.create = (req, res) => {
