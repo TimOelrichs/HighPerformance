@@ -2,8 +2,8 @@ require('../dbConnect');
 var productSalesSchema = require('./ProductSales')
 
 var OrderEvaluationSchema = new Schema({
-    productName: String,
-    productSales: [productSalesSchema]
+    HooverClean: [productSalesSchema],
+    HooverGo: [productSalesSchema]
 });
 
 module.exports = OrderEvaluationSchema;

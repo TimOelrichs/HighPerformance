@@ -1,5 +1,6 @@
 const axios = require('axios');
-const { transformRating, transformProductIdToName } = require("../util/adapter")
+const { adapter } = require("../util/adapter")
+const { model } = require('../models/Salesman');
 
 const baseUrl = 'https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX';
 
@@ -12,6 +13,7 @@ const config = {
     headers: { 'Accept': 'application/json'},
     auth: credentials,
 };
+
 
 async function getAllAcounts() {
     const contacts = await axios.get(`${baseUrl}/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account`, config);
@@ -41,27 +43,6 @@ async function getAllProducts() {
     return res;
 }
 
-exports.getAllAcounts = getAllAcounts
-
-
-
-function filterByYear(acc, year){
-    return acc.activeOn.split("-")[0] == year;
-}
-
-function filterBySalesmanId(acc, id){
-    return acc.salesRep['@href'].split("account/")[1] === id
-}
-
-function getSalesOrderIds(saleOrders) {
-    console.log("[Info] ...extracting SaleOrderIds")
-    let ids = [];
-    saleOrders.forEach(order => {
-        ids.push(order['@href'].split("salesOrder/")[1])
-    });
-    console.log("ids:", ids)
-    return ids;
-}
 
 async function getSalesOrderPosistions(id) {
     console.log(`[GET] ...openCRX all Positions for SalesOrder ${id}`);
@@ -70,148 +51,132 @@ async function getSalesOrderPosistions(id) {
     return res.data.objects;
 }
 
+async function getAllSalesOrdersAsEvaluationRecord(id, year) {
 
-const testId = "9ENFSDRCBESBTH2MA4T2TYJFL";
-//const testId = "L0NTAXG7TQTPM0EBHQA5MAZ7J";
-var sales = {}
-
-//getAllSalesForSalesman(testId)
-
-function transformSalesObject(sales) {
-    let result = {};
-    for (let index = 0; index < sales.customers.length; index++) {
-        for (const pos of sales.positions[index]) {
-            if (result[pos.productName]) {
-                    result[pos.productName].push({
-                        clientName: sales.customers[index].clientName,
-                        clientRating:  sales.customers[index].clientRating,
-                        items: pos.items,
-                    })
-            } else {
-                result[pos.productName] = []
-                result[pos.productName].push({
-                        clientName: sales.customers[index].clientName,
-                        clientRating:  sales.customers[index].clientRating,
-                        items: pos.items,
-                    })
-                }
-            }
-        }
-    return result;
-    }
-
-
-
-async function getAllSalesForSalesman(id) {
-
-  await getAllSalesOrder()
+    return getAllSalesOrder()
         .then(res => res.objects)
-        .then(res => res.filter(o => o.isGift === false))
-        .then(res => res.filter(o => filterBySalesmanId(o, id)))
-        .then(res => res.filter(o => filterByYear(o, 2018))) 
-        .then(async res => {
-            sales = {};
-            let customer = [] //await getCustomerDetails(res);
-            res.forEach(async order => {
-                let id = order.customer['@href'].split("account/")[1]
-                //console.log(id)
-                customer.push(getAccountById(id));
+        .then(orders => orders.filter(order => order.isGift === false))
+        .then(orders => orders.filter(order => order.totalBaseAmount != 0))
+        //optional filters for Salesman and year
+        //.then(orders => { id ? orders.filter(order => order.salesRep['@href'].split("account/")[1] === id): orders})
+        //.then(orders => { year ? orders.filter(order => order.activeOn.split("-")[0] === year): orders})
+        .then(async orders => {
+         
+            let evaluationRecords = [];
+
+            //Promises for loading data and Schema-transfrom preparation
+            let customerPromises = []; 
+            let salesmenPromises = [];
+            let salesOrderPositionPromises = [];
+            
+            orders.forEach(async order => {
+
+                // extract Ids from order
+                let salesmanId = order.salesRep['@href'].split("account/")[1];
+                let customerId = order.customer['@href'].split("account/")[1];
+                let salesOrderId = order.identity.split("salesOrder/")[1];
+
+                //save year to Record
+                evaluationRecords.push({ year: order.activeOn.split("-")[0] });
+
+                //get parallel async Salesman from MongoDB
+                salesmenPromises.push(model.findOne({ openCRXId: salesmanId }))
+                //get parallel async Customer Details for Name and Rating 
+                customerPromises.push(getAccountById(customerId));
+                //get parallel SalesOrderPostions for sold products names and item quantity
+                salesOrderPositionPromises.push(getSalesOrderPosistions(salesOrderId));
             });
-            await Promise.all(customer).then(res => {
+
+            //wait for SalesmanPromises and add Sales to EvaluationRecord
+            await Promise.all(salesmenPromises).then(salesmen => {
+                //add Salesman to EvaluationRecords
+                let index = 0;
+                salesmen.forEach(sm => {
+                    evaluationRecords[index++].salesman = sm;
+                })
+            }).then(() => console.log("[Yippi] Salesman prepared for Records"))
+            .catch((err) => console.log(err))
+
+            let sales = {};
+
+            await Promise.all(customerPromises).then(res => {
                 sales.customers = res.map(account => ({
                     clientName: account.name,
-                    clientRating: transformRating(account.accountRating)
+                    clientRating: adapter.transformRating(account.accountRating)
                 }))
-            })
-            return res;
-        })
-        .then(res => {
-            return res.map(x => x.identity);
-        })
-        .then(async identities => {
-            let saleOrderPositions = [];
-            identities.forEach(async identity => {
-                let id = identity.split("salesOrder/")[1];
-                saleOrderPositions.push(getSalesOrderPosistions(id));
-            });
+            }).then(() => console.log("[Yippi] Customers prepared for Records"))
+            .catch((err) => console.log(err))
 
-            await Promise.all(saleOrderPositions).then(res => {
-                let result = res.map(x => x.map(p => ({
-                    productName: transformProductIdToName(p.product['@href'].split("product/")[1]),
+            //wait fpr sold products per order
+            await Promise.all(salesOrderPositionPromises).then(positions => {
+                //console.log("Here are the positions", positions)
+                let result = positions.map(x => x.map(p => ({
+                    productName: adapter.transformProductIdToName(p.product['@href'].split("product/")[1]),
                     items: p.quantity
                 })));
                 sales.positions = result;
-                return identities;
+            }).then(() => console.log("[Yippi] Salespositions prepared for Record"))
+            .catch((err) => console.log(err))
+
+   
+            //merge customer and product to Schema
+            let index = 0;
+            evaluationRecords.forEach(er => {
+                sales.positions[index].forEach(pos => {
+                    er.sales = er.sales || {};
+                    if (!er.sales[pos.productName]) {
+                        er.sales[pos.productName] = [];
+                    } 
+
+                    er.sales[pos.productName].push(
+                        {
+                            clientName: sales.customers[index].clientName,
+                            clientRating: sales.customers[index].clientRating,
+                            items: pos.items
+
+                        });  
+                })
+                index++;
             })
-        })
-        .then(res => {
-            console.log(transformSalesObject(sales))
+
+            /*
+            //sh**, must reduce result :(  didn't think that through
+            let realEvaluationRecords = []
+            let years = evaluationRecords.map(r => r.year)
+            let salesman = evaluationRecords.map(r => r.salesman.openCRXId)
+            
+            years.forEach(year => {
+                salesman.forEach(id => {
+                    let arr = evaluationRecords
+                        .filter(r => r.year === year)
+                        .filter(r => r.salesman.openCRXId === id)
+                    if (arr.length) {
+                        realEvaluationRecords.push(arr.reduce((acc = {}, cur) => {
+                            for (const [key, value] of Object.entries(cur)) {
+                                if (!acc[key]) { acc[key] = value; }
+                            }
+                            acc.sales.HooverClean = acc.sales.HooverClean || [];
+                            if (cur.sales.HooverClean) acc.sales.HooverClean.push(...cur.sales.HooverClean) 
+                            acc.sales.HooverGo = acc.sales.HooverGo || [];
+                            if(cur.sales.HooverClean) acc.sales.HooverGo.push(cur.sales.HooverClean)
+                           
+                        }))
+                    }
+                })
+            })*/
+
+            console.log(evaluationRecords)
+            //console.log(realEvaluationRecords)
+            return evaluationRecords;
         })
         .catch((err) => console.log(err))
-
 }
 
-exports.getAllSalesForSalesman = getAllSalesForSalesman;
-
-        /*.then(ids => {
-        sales.positions = [];
-        ids.forEach(async (id) => {
-            console.log(id)
-            let position = await getSalesOrderPosistions(id)
-            let filter = []
-            position.objects.forEach(pos => filter.push({product: pos.product['@href'], quantity: pos.quantity}))
-            sales.positions.push(filter);
-        })
-    })
-
-    .then(() => transformSalesObject(sales))
-    .then((res) => console.log(res))
-    */
-    
-   /*
-getAccountById("97NB4O91UQORTH2MA4T2TYJFL")
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-*/ 
-
-    /*
-    .then(res => {
-        let sales = {}
-        let hooverClean = 'https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard/product/9JMBMVTX2CSMHH2MA4T2TYJFL';
-        let hooverGo = 'https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard/product/L6K68IE1QROBTH2MA4T2TYJFL'
-        for (sale of res) {
-            if (sale.producs['@href'] == hooverClean) {
-                if (sales["HooverClean"]) {
-                    sales.HooverClean.push({
-                        sale.
-                    })
-                }
-                
-            }
-        }
-        console.log(res))
-    }
-    .catch(error => console.log(error))
-
-
-
-/*
-getAllProducts()
-    .then((res) => console.log(res))
-    .catch(error => console.log(error))
-
-
-
-
-getAllAcounts()
-    .then((res) => console.log(res))
-    .catch((error) => console.log(error))
-
-getAccountById(testId)
-    .then(data => {
-        console.log('\x1b[36m%s\x1b[0m', "[Info]", "Sucess! Here's the data");
-        console.log(data);
-        return data
-    })
-    .then(data => console.log(`[Info] The AccountRating is: ${data.accountRating}`));
-*/
+exports.openCRXService = {
+    getAllAcounts,
+    getAccountById,
+    getAllSalesOrder,
+    getAllSalesOrdersAsEvaluationRecord,
+    getSalesOrderPosistions,
+    getAllProducts
+}

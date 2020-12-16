@@ -1,5 +1,5 @@
 
-exports.transformRating = (rating) => {
+const transformRating = (rating) => {
     switch (rating) {
         case 3:
             return "good"
@@ -12,7 +12,7 @@ exports.transformRating = (rating) => {
     }
 } 
 
-exports.transformProductIdToName = (id) => {
+const transformProductIdToName = (id) => {
     console.log(id)
     switch (id) {
         case '9JMBMVTX2CSMHH2MA4T2TYJFL':
@@ -24,3 +24,34 @@ exports.transformProductIdToName = (id) => {
     }
 }
 
+
+const transformSalesObject = (sales) => {
+    let result = {};
+    for (let index = 0; index < sales.customers.length; index++) {
+        for (const pos of sales.positions[index]) {
+            if (result[pos.productName]) {
+                    result[pos.productName].push({
+                        clientName: sales.customers[index].clientName,
+                        clientRating:  sales.customers[index].clientRating,
+                        items: pos.items,
+                    })
+            } else {
+                result[pos.productName] = []
+                result[pos.productName].push({
+                        clientName: sales.customers[index].clientName,
+                        clientRating:  sales.customers[index].clientRating,
+                        items: pos.items,
+                    })
+                }
+            }
+        }
+    return result;
+    }
+
+
+
+exports.adapter = {
+    transformRating,
+    transformProductIdToName,
+    transformSalesObject
+}

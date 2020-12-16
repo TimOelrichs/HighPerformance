@@ -79,12 +79,21 @@ async function getEmployeeContactDetails(id) {
 
 
 
-const id = 9;
+exports.orangeHRMService = {
+    getOrangeHRMToken,
+    getAllEmployees,
+    getEmployeeContactDetails,
+    getEmployeeDetailsById,
+    postEmployeeBonusSalary,
+    getEmployeeBonusSalaryById,
+    getEmployeeById,
 
-exports.getOrangeHRMToken = getOrangeHRMToken
-exports.getAllEmployees = getAllEmployees
+}
 
 
+
+
+/*
 getOrangeHRMToken()
     .then(() => getAllEmployees())
     .then(res => res.data.filter((employee => employee.unit === "Sales")))

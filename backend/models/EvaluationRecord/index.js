@@ -5,10 +5,8 @@ var OrderEvaluationSchema = require("./OrderEvaluation");
 
 var EvaluationRecordSchema = new Schema({
     salesman: SalesmanSchema,
-    goalId: Number,
     year: Number,
-    sid: Number,
-    sales: [OrderEvaluationSchema],
+    sales: OrderEvaluationSchema,
     totalBonusA: Number,
     socialPerformances: [SocialPerformanceSchema],
     totalBonusB: Number,
