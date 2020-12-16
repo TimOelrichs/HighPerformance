@@ -14,6 +14,7 @@ var EvaluationRecordSchema = new Schema({
     totalBonusB: Number,
     totalBonus: Number,
     remarks: String,
+    status: String,
 });
 
 var EvaluationRecord = mongoose.model('EvaluationRecord', EvaluationRecordSchema);

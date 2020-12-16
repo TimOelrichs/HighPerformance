@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { transformRating } = require("../util/accountRatingConverter")
+const { transformRating, transformProductIdToName } = require("../util/adapter")
 
 const baseUrl = 'https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX';
 
@@ -100,23 +100,6 @@ function transformSalesObject(sales) {
     return result;
     }
 
-/*
-getAccountById("97NB4O91UQORTH2MA4T2TYJFL")
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-*/
-
-function transformProductIdToName(id) {
-    console.log(id)
-    switch (id) {
-        case '9JMBMVTX2CSMHH2MA4T2TYJFL':
-            return "HooverClean"
-        case 'L6K68IE1QROBTH2MA4T2TYJFL':
-            return "HooverGo"
-        default:
-            return "unknown Product"
-    }
-}
 
 
 async function getAllSalesForSalesman(id) {
@@ -166,8 +149,10 @@ async function getAllSalesForSalesman(id) {
         })
         .catch((err) => console.log(err))
 
-
 }
+
+exports.getAllSalesForSalesman = getAllSalesForSalesman;
+
         /*.then(ids => {
         sales.positions = [];
         ids.forEach(async (id) => {
@@ -183,7 +168,11 @@ async function getAllSalesForSalesman(id) {
     .then((res) => console.log(res))
     */
     
-    
+   /*
+getAccountById("97NB4O91UQORTH2MA4T2TYJFL")
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+*/ 
 
     /*
     .then(res => {
