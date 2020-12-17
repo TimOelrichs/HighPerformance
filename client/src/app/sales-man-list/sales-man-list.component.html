@@ -13,8 +13,18 @@
 </ng-template>
 -->
 
-<mat-card *ngFor="let salesman of this.salesmen">
-<mat-card-title>{{salesman.fullName}}</mat-card-title>
-<mat-card-subtitle>{{salesman.jobTitle}}</mat-card-subtitle>
-<img mat-card-image src="{{salesman.imgUrl}}">
-</mat-card>
+<h1>Hoover Salesman</h1>
+<div id="container">
+  <mat-card *ngFor="let salesman of this.salesmen">
+    <mat-card-title>{{salesman.fullName}}</mat-card-title>
+    <mat-card-subtitle>{{salesman.jobTitle}}</mat-card-subtitle>
+    <img mat-card-image src="{{salesman.imgUrl}}">
+    <mat-card-content>
+      <p>EmployeeId: {{salesman.employeeId}}</p>
+      <p>Department: {{salesman.department}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>View Performance</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
