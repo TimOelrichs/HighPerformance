@@ -5,7 +5,7 @@ module.exports = (app) => {
 
     router.post("/", evaluationRecords.create);
     router.get("/", evaluationRecords.findAll);
-    router.get("/:id", evaluationRecords.findOne);
+    router.get("/:id", evaluationRecords.findAllRecordbySalesmanId);
     router.put("/:id", evaluationRecords.update);
     router.delete("/:id", evaluationRecords.delete);
     

@@ -9,6 +9,8 @@ import { SalesManListComponent } from './sales-man-list/sales-man-list.component
 import { ToolbarComponent } from './toolbar/toolbar.component'
 import { MaterialModule } from './material-module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { PerformaceViewComponent } from './performace-view/performace-view.component';
+import { PerfomanceRecordComponent } from './perfomance-record/perfomance-record.component';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     AppComponent,
     SalesManListComponent,
     ToolbarComponent,
+    PerformaceViewComponent,
+    PerfomanceRecordComponent,
   ],
   imports: [
     BrowserModule,

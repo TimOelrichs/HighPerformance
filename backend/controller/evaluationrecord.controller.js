@@ -23,6 +23,16 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findAllRecordbySalesmanId = (req, res) => {
+    const id = req.params.id;
+    model.find({"salesman.orangeHRMId": id}).then(function (result) {
+        res.status(201).send(result);
+    }).catch(() => {
+        console.log(`Ohh, couldn't Find All`);
+        res.status(404).send("All EvaluationRecord not found!");
+    });
+};
+
 exports.findOne = (req, res) => {
     const id = req.params.id;
     console.log(`[GET] EvaluationRecordById ${id}`);
