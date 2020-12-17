@@ -14,12 +14,12 @@ openCRXService.getAllSalesOrdersAsEvaluationRecord()
             record.status = "angereichert";
             record.totalBonusA = 0;
             evaluationRecord.create(record)
-                .then(er => console.log("Evaluation saved sucessfully"))   
+                //.then(er => console.log("EvaluationRecord saved sucessfully"))   
                 .catch(err => console.log(err))
         })
         return records;
     })
-    .then(records => console.log(`[Info] save ${records.length+1} from openCRX to mongoDB`))
+    .then(records => console.log(`[Info] saved ${records.length} EvaluationRecords to mongoDB`))
     .catch((err) => console.log(err))
 
 
