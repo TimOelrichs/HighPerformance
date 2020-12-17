@@ -77,7 +77,15 @@ async function getEmployeeContactDetails(id) {
     return res.data;
 }
 
+async function getEmployeeImage(id) {
+    console.log(`[GET] Employee Img by Id: ${id}`)
+    let res = await axios.get(`https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/pim/viewPhoto/empNumber/${id}`, config)
+    console.log(res);
+    return res.data;
+}
 
+
+getOrangeHRMToken().then(()=> getEmployeeImage(8)).then(res => console.log(res))
 
 exports.orangeHRMService = {
     getOrangeHRMToken,

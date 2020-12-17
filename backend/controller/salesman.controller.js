@@ -15,6 +15,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+    console.log("[Log] GET Salesman");
     model.find({}).then(function (result) {
         res.status(201).send(result);
     }).catch(() => {

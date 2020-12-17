@@ -62,112 +62,72 @@ async function getAllSalesOrdersAsEvaluationRecord(id, year) {
         //.then(orders => { year ? orders.filter(order => order.activeOn.split("-")[0] === year): orders})
         .then(async orders => {
          
-            let evaluationRecords = [];
-
             //Promises for loading data and Schema-transfrom preparation
-            let customerPromises = []; 
             let salesmenPromises = [];
+            let customerPromises = []; 
             let salesOrderPositionPromises = [];
+            let years = []
             
-            orders.forEach(async order => {
+            let numberOrders = orders.length;
 
-                // extract Ids from order
-                let salesmanId = order.salesRep['@href'].split("account/")[1];
-                let customerId = order.customer['@href'].split("account/")[1];
-                let salesOrderId = order.identity.split("salesOrder/")[1];
+            //load data only if there are any orders
+            if (numberOrders) {
+                orders.forEach(async order => {
 
-                //save year to Record
-                evaluationRecords.push({ year: order.activeOn.split("-")[0] });
+                    // extract Ids from order
+                    let salesmanId = order.salesRep['@href'].split("account/")[1];
+                    let customerId = order.customer['@href'].split("account/")[1];
+                    let salesOrderId = order.identity.split("salesOrder/")[1];
 
-                //get parallel async Salesman from MongoDB
-                salesmenPromises.push(model.findOne({ openCRXId: salesmanId }))
-                //get parallel async Customer Details for Name and Rating 
-                customerPromises.push(getAccountById(customerId));
-                //get parallel SalesOrderPostions for sold products names and item quantity
-                salesOrderPositionPromises.push(getSalesOrderPosistions(salesOrderId));
-            });
+                    //save year
+                    years.push(order.activeOn.split("-")[0]);
 
-            //wait for SalesmanPromises and add Sales to EvaluationRecord
-            await Promise.all(salesmenPromises).then(salesmen => {
-                //add Salesman to EvaluationRecords
-                let index = 0;
-                salesmen.forEach(sm => {
-                    evaluationRecords[index++].salesman = sm;
-                })
-            }).then(() => console.log("[Yippi] Salesman prepared for Records"))
-            .catch((err) => console.log(err))
+                    //get parallel async Salesman from MongoDB
+                    salesmenPromises.push(model.findOne({ openCRXId: salesmanId }))
+                    //get parallel async Customer Details for Name and Rating 
+                    customerPromises.push(getAccountById(customerId));
+                    //get parallel SalesOrderPostions for sold products names and item quantity
+                    salesOrderPositionPromises.push(getSalesOrderPosistions(salesOrderId));
+                });
 
-            let sales = {};
-
-            await Promise.all(customerPromises).then(res => {
-                sales.customers = res.map(account => ({
-                    clientName: account.name,
-                    clientRating: adapter.transformRating(account.accountRating)
-                }))
-            }).then(() => console.log("[Yippi] Customers prepared for Records"))
-            .catch((err) => console.log(err))
-
-            //wait fpr sold products per order
-            await Promise.all(salesOrderPositionPromises).then(positions => {
-                //console.log("Here are the positions", positions)
-                let result = positions.map(x => x.map(p => ({
-                    productName: adapter.transformProductIdToName(p.product['@href'].split("product/")[1]),
-                    items: p.quantity
-                })));
-                sales.positions = result;
-            }).then(() => console.log("[Yippi] Salespositions prepared for Record"))
-            .catch((err) => console.log(err))
-
-   
-            //merge customer and product to Schema
-            let index = 0;
-            evaluationRecords.forEach(er => {
-                sales.positions[index].forEach(pos => {
-                    er.sales = er.sales || {};
-                    if (!er.sales[pos.productName]) {
-                        er.sales[pos.productName] = [];
-                    } 
-
-                    er.sales[pos.productName].push(
-                        {
-                            clientName: sales.customers[index].clientName,
-                            clientRating: sales.customers[index].clientRating,
-                            items: pos.items
-
-                        });  
-                })
-                index++;
-            })
-
-            /*
-            //sh**, must reduce result :(  didn't think that through
-            let realEvaluationRecords = []
-            let years = evaluationRecords.map(r => r.year)
-            let salesman = evaluationRecords.map(r => r.salesman.openCRXId)
+                
+                let evaluationRecordsObj = {};
+                let arr = [years,  salesmenPromises, customerPromises, salesOrderPositionPromises]
             
-            years.forEach(year => {
-                salesman.forEach(id => {
-                    let arr = evaluationRecords
-                        .filter(r => r.year === year)
-                        .filter(r => r.salesman.openCRXId === id)
-                    if (arr.length) {
-                        realEvaluationRecords.push(arr.reduce((acc = {}, cur) => {
-                            for (const [key, value] of Object.entries(cur)) {
-                                if (!acc[key]) { acc[key] = value; }
-                            }
-                            acc.sales.HooverClean = acc.sales.HooverClean || [];
-                            if (cur.sales.HooverClean) acc.sales.HooverClean.push(...cur.sales.HooverClean) 
-                            acc.sales.HooverGo = acc.sales.HooverGo || [];
-                            if(cur.sales.HooverClean) acc.sales.HooverGo.push(cur.sales.HooverClean)
-                           
-                        }))
-                    }
-                })
-            })*/
+                //wait for all promises
+                return Promise.all(arr.map(subarr => Promise.all(subarr)))
+                    .then(data => {
+                        
+                        for (let index = 0; index < numberOrders; index++) {
+                            //aggregate all SaleOrders to one EvaluationRecord per year and Salesman 
+                            let year = data[0][index];
+                            let smId = data[1][index].openCRXId;
 
-            console.log(evaluationRecords)
-            //console.log(realEvaluationRecords)
-            return evaluationRecords;
+                            evaluationRecordsObj[year + smId] = evaluationRecordsObj[year + smId] || {
+                                year: year,
+                                salesman: data[1][index],
+                                sales: {},
+                                status: "angereichert"
+                            };
+                            data[3][index].map(position => ({
+                                productName: adapter.transformProductIdToName(position.product['@href'].split("product/")[1]),
+                                items: position.quantity
+                            })).forEach(pos => {
+                                evaluationRecordsObj[year + smId].sales[pos.productName] = evaluationRecordsObj[year + smId].sales[pos.productName] || [];
+                                evaluationRecordsObj[year + smId].sales[pos.productName].push({
+                                    clientName: data[2][index].fullName,
+                                    clientRating: adapter.transformRating(data[2][index].accountRating),
+                                    items: pos.items
+                                })
+                            });
+                          
+                        }
+                        return  Object.keys(evaluationRecordsObj).map(key => evaluationRecordsObj[key])
+                    }).catch((err) => console.log(err))
+
+            }
+
+            return null;
         })
         .catch((err) => console.log(err))
 }

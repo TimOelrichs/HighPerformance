@@ -1,0 +1,20 @@
+
+<!--
+<div *ngIf="loading; then loading else notLoading"></div>
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+  Loading Salesman
+</ng-template>
+
+<ng-template #notLoading>
+  <mat-card *ngFor="let salesman of this.salesmen">
+    {{salesman.fullName}}
+  </mat-card>
+</ng-template>
+-->
+
+<mat-card *ngFor="let salesman of this.salesmen">
+<mat-card-title>{{salesman.fullName}}</mat-card-title>
+<mat-card-subtitle>{{salesman.jobTitle}}</mat-card-subtitle>
+<img mat-card-image src="{{salesman.imgUrl}}">
+</mat-card>

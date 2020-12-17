@@ -13,6 +13,7 @@ async function importSalesmenToMongoDB() {
         .then(() => orangeHRMService.getAllEmployees())
         .then(res => res.data.filter((employee => employee.unit === "Sales")))
         .then(res => res.forEach(s => {
+            
             salesmen.push({
                 fullName: s.fullName,
                 firstName: s.firstName,
@@ -22,7 +23,7 @@ async function importSalesmenToMongoDB() {
                 orangeHRMId: s.employeeId,
                 department: s.unit,
                 jobTitle: s.jobTitle,
-                imgUrl: `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/pim/viewPhoto/empNumber/${s.employeeId}`
+                imgUrl: `http://localhost:8080/img/${s.employeeId}.png`
             })
         }
         ))
