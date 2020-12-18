@@ -1,3 +1,18 @@
 <button mat-button [routerLink]="''"><mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon></button>
 
 <h1>View Performance</h1>
+
+<div *ngIf="!this.loading">
+<mat-card>
+  <mat-card-title>{{salesman.fullName}}</mat-card-title>
+  <mat-card-subtitle>{{salesman.jobTitle}}</mat-card-subtitle>
+  <img mat-card-image src="{{salesman.imgUrl}}">
+  <mat-card-content>
+    <p>EmployeeId: {{salesman.employeeId}}</p>
+    <p>Department: {{salesman.department}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button [routerLink]="['/performance', salesman.orangeHRMId]">View Performance</button>
+  </mat-card-actions>
+</mat-card>
+</div>

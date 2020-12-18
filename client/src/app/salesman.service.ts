@@ -18,8 +18,12 @@ export class SalesmanService {
 
   constructor(private http: HttpClient) { }
 
-  getSalesmen() {
+  getAllSalesmen() {
     return this.http.get(this.salesmanUrl)
+  }
+
+  getSalesmenById(id) {
+    return this.http.get(`${this.salesmanUrl}/${id}`)
   }
 
 }

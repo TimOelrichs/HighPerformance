@@ -28,7 +28,7 @@ exports.findOne = (req, res) => {
     const sid = req.params.sid;
     console.log(`[GET] SalesmanById ${sid}`);
 
-    model.findOne({ sid: sid }).then(function (result) {
+    model.findOne({ orangeHRMId: sid }).then(function (result) {
         console.log(result)
         res.status(201).send(result);
     }).catch(() => {
@@ -40,7 +40,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const sid = req.params.sid;
     console.log(`[PUT] SalesmanById ${sid}`);
-    model.updateOne({ sid: sid }, req.body).then((result) => {
+    model.updateOne({ orangeHRMId: sid }, req.body).then((result) => {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't UPDATE id: ${sid}`);
@@ -52,7 +52,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const sid = req.params.sid;
     console.log(`[DELETE] SalesmanById ${sid}`);
-    model.deleteOne({ sid: sid }).then(function (result) {
+    model.deleteOne({ orangeHRMId: sid }).then(function (result) {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't DELETE id: ${sid}`);
