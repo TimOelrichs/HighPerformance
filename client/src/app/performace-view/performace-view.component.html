@@ -2,17 +2,22 @@
 
 <h1>View Performance</h1>
 
-<div *ngIf="!this.loading">
+<div *ngIf="!this.loadingSaleman">
 <mat-card>
-  <mat-card-title>{{salesman.fullName}}</mat-card-title>
+  <img class="avatar" src="{{salesman.imgUrl}}">
+  <mat-card-title>
+
+    {{salesman.fullName}}
+  </mat-card-title>
   <mat-card-subtitle>{{salesman.jobTitle}}</mat-card-subtitle>
-  <img mat-card-image src="{{salesman.imgUrl}}">
   <mat-card-content>
     <p>EmployeeId: {{salesman.employeeId}}</p>
     <p>Department: {{salesman.department}}</p>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-button [routerLink]="['/performance', salesman.orangeHRMId]">View Performance</button>
-  </mat-card-actions>
 </mat-card>
 </div>
+
+
+<button id="addBtn" mat-fab  aria-label="Example icon button with a bookmark icon">
+  <mat-icon>addchart</mat-icon>
+</button>

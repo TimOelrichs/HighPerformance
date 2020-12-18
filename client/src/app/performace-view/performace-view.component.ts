@@ -15,7 +15,8 @@ export class PerformaceViewComponent implements OnInit {
   private sales;
   private er;
 
-  public loading = true;
+  public loadingSaleman = true;
+  loadingER = true;
 
   constructor(
     private erService: EvaluationRecordService,
@@ -38,7 +39,7 @@ export class PerformaceViewComponent implements OnInit {
     this.salesmanService.getSalesmenById(this.smId)
       .subscribe(data => { this.salesman = data; console.log(data) },
         (err) => console.log(err),
-        () => console.log("Load Salesman Done"))
+        () => { this.loadingSaleman = false; console.log("Load Salesman Done") })
 
   }
 
@@ -46,13 +47,9 @@ export class PerformaceViewComponent implements OnInit {
     this.erService.getEvaluationRecords(this.smId)
       .subscribe(data => {
         this.er = data;
-        this.salesman = data['salesman'];
-        this.sales = data['sales'];
-        console.log(data);
-        console.log(this.salesman);
       },
         (err) => console.log(err),
-        () => { this.loading = false; console.log("Done") })
+        () => { this.loadingER = false; console.log("EvaluationRecord loading Done") })
   }
 
 }
