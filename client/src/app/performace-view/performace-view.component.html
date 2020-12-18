@@ -1,7 +1,9 @@
-<button mat-button [routerLink]="''"><mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon></button>
+<div class="flex-row">
+  <button mat-button [routerLink]="''"><mat-icon aria-hidden="false" aria-label="Example home icon">arrow_back</mat-icon></button>
+  <h1>View Performance</h1>
+</div>
 
-<h1>View Performance</h1>
-
+<div class="flex-row">
 <div *ngIf="!this.loadingSaleman">
 <mat-card>
   <img class="avatar" src="{{salesman.imgUrl}}">
@@ -16,8 +18,13 @@
   </mat-card-content>
 </mat-card>
 </div>
+  <div id="records">
 
+    <app-perfomance-record *ngFor="let r of this.er" [record]="r">
+    </app-perfomance-record>
 
-<button id="addBtn" mat-fab  aria-label="Example icon button with a bookmark icon">
-  <mat-icon>addchart</mat-icon>
-</button>
+  </div>
+</div>
+
+  <button id="addBtn" mat-fab  aria-label="Example icon button with a bookmark icon">
+    <mat-icon>addchart</mat-icon>

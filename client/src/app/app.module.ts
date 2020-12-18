@@ -11,6 +11,7 @@ import { MaterialModule } from './material-module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import { PerformaceViewComponent } from './performace-view/performace-view.component';
 import { PerfomanceRecordComponent } from './perfomance-record/perfomance-record.component';
+import { SalesTableComponent } from './sales-table/sales-table.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { PerfomanceRecordComponent } from './perfomance-record/perfomance-record
     ToolbarComponent,
     PerformaceViewComponent,
     PerfomanceRecordComponent,
+    SalesTableComponent,
   ],
   imports: [
     BrowserModule,

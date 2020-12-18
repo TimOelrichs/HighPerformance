@@ -1,0 +1,20 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+       Perfomance Record
+    </mat-panel-title>
+    <mat-panel-description>
+      {{record.year}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-divider></mat-divider>
+  <h3>Orders Evaluation:</h3>
+
+ <h4>HooverGo:</h4>
+ <app-sales-table [transactions]="record.sales.HooverClean"></app-sales-table>
+ <p>HooverGo:</p>
+ <app-sales-table [transactions]="record.sales.HooverGo"></app-sales-table>
+ <mat-divider></mat-divider>
+
+
+</mat-expansion-panel>

@@ -13,7 +13,7 @@ export class PerformaceViewComponent implements OnInit {
   private smId;
   public salesman;
   private sales;
-  private er;
+  public er;
 
   public loadingSaleman = true;
   loadingER = true;
