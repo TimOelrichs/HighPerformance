@@ -1,9 +1,6 @@
 <div class="flex-row">
   <button mat-button [routerLink]="''"><mat-icon aria-hidden="false" aria-label="Example home icon">arrow_back</mat-icon></button>
-  <h1>View Performance</h1>
-</div>
 
-<div class="flex-row">
 <div *ngIf="!this.loadingSaleman">
 <mat-card>
   <img class="avatar" src="{{salesman.imgUrl}}">

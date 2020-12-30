@@ -4,17 +4,39 @@
        Perfomance Record
     </mat-panel-title>
     <mat-panel-description>
-      {{record.year}}
+      <div class="headline">
+        <p>{{record.year}}</p>
+
+    </div>
     </mat-panel-description>
   </mat-expansion-panel-header>
   <mat-divider></mat-divider>
-  <h3>Orders Evaluation:</h3>
 
- <h4>HooverGo:</h4>
- <app-sales-table [transactions]="record.sales.HooverClean"></app-sales-table>
- <p>HooverGo:</p>
- <app-sales-table [transactions]="record.sales.HooverGo"></app-sales-table>
+  <div class="headline"><h2>Orders Evaluation:</h2>
+    <button mat-icon-button color="accent" aria-label="edit">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+
+
+  <div *ngIf="record.sales.HooverClean">
+    <h3>HooverClean:</h3>
+    <app-sales-table [transactions]="record.sales.HooverClean"></app-sales-table>
+  </div>
+  <div *ngIf="record.sales.HooverGo">
+    <h3>HooverGo:</h3>
+    <app-sales-table [transactions]="record.sales.HooverGo"></app-sales-table>
+  </div>
+
  <mat-divider></mat-divider>
+ <div class="headline">
+  <h2>Social Performance Evaluation:</h2>
+  <button mat-icon-button color="accent" aria-label="edit">
+    <mat-icon>edit</mat-icon>
+  </button>
+</div>
 
+ <app-social-table *ngIf="record.socialPerfomances; else elseBlock " [socialPerfomances]="record.socialPerformances"></app-social-table>
+ <ng-template #elseBlock>No Social Perfomance Evaluation found</ng-template>
 
 </mat-expansion-panel>

@@ -2,3 +2,13 @@ mat-expansion-panel {
   width: 65vw;
   min-width: 400px;
 }
+
+h3 {
+  margin: 5px 5px;
+  color: #3f51b5;
+}
+
+.headline {
+  display: flex;
+  justify-content: space-between;
+}
