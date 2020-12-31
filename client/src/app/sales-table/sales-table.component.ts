@@ -5,7 +5,7 @@ export interface Transaction {
     clientName: String,
     clientRating: String,
     items: any,
-    bonus?: Number,
+    bonus?: Number | any,
     remarks?: String
 }
 
@@ -21,13 +21,19 @@ export class SalesTableComponent implements OnInit {
   @Input() transactions: Transaction[]
 
 
-  getTotalCost() {
+  getTotalBonus() {
+    return this.transactions.map(t => t.bonus).reduce((acc, value) => acc + value, 0);
+  }
+
+  getTotalItems() {
     return this.transactions.map(t => t.items).reduce((acc, value) => acc + value, 0);
   }
+
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 

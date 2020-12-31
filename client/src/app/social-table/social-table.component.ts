@@ -1,14 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SocialRating } from '../../models/model';
 
-
-export interface SocialPerformances {
-  _id : String,
-  skill: String,
-  target: Number,
-  actual: Number,
-  bonus?: Number,
-  remarks?: String
-}
 
 @Component({
   selector: 'app-social-table',
@@ -20,7 +12,7 @@ export class SocialTableComponent implements OnInit {
 
   displayedColumns = ['skill', 'target', "actual", "bonus", "remarks"];
 
-  @Input() socialPerfomances: SocialPerformances[]
+  @Input() socialPerfomances: SocialRating[]
 
 
   getTotalCost() {

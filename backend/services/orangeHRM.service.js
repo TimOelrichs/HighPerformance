@@ -85,7 +85,7 @@ async function getEmployeeImage(id) {
 }
 
 
-getOrangeHRMToken().then(()=> getEmployeeImage(8)).then(res => console.log(res))
+//getOrangeHRMToken().then(()=> getEmployeeImage(8)).then(res => console.log(res))
 
 exports.orangeHRMService = {
     getOrangeHRMToken,

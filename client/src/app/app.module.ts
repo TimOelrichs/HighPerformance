@@ -13,7 +13,8 @@ import { PerformaceViewComponent } from './performace-view/performace-view.compo
 import { PerfomanceRecordComponent } from './perfomance-record/perfomance-record.component';
 import { SalesTableComponent } from './sales-table/sales-table.component';
 import { SocialTableComponent } from './social-table/social-table.component';
-
+import { DialogEditSocialComponent, DialogEditSocialContent } from './dialog-edit-social/dialog-edit-social.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,8 @@ import { SocialTableComponent } from './social-table/social-table.component';
     PerfomanceRecordComponent,
     SalesTableComponent,
     SocialTableComponent,
+    DialogEditSocialComponent,
+    DialogEditSocialContent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,10 @@ import { SocialTableComponent } from './social-table/social-table.component';
     BrowserAnimationsModule,
     HttpClientModule,
     MaterialModule,
+    FormsModule,
+  ],
+  entryComponents: [
+    DialogEditSocialComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-<mat-expansion-panel>
+<div id="container"><mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
        Perfomance Record
@@ -10,33 +10,71 @@
     </div>
     </mat-panel-description>
   </mat-expansion-panel-header>
-  <mat-divider></mat-divider>
 
-  <div class="headline"><h2>Orders Evaluation:</h2>
-    <button mat-icon-button color="accent" aria-label="edit">
-      <mat-icon>edit</mat-icon>
-    </button>
-  </div>
+  <div class="headline"><div>Status: {{record.status}}</div></div>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Orders Evaluation:
+     </mat-panel-title>
+     <mat-panel-description>
+        Bonus A: {{this.record.totalBonusA | currency}}
+       </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="headline"><div>Status: {{record.status}}</div>
+    <app-dialog-edit-social></app-dialog-edit-social>
+    </div>
 
+    <div class="orderBox">
+    <div *ngIf="record.sales.HooverClean">
+      <h3>HooverClean:</h3>
+      <app-sales-table class="table" [transactions]="record.sales.HooverClean"></app-sales-table>
+    </div>
+    <div *ngIf="record.sales.HooverGo">
+      <h3>HooverGo:</h3>
+      <app-sales-table class="table" [transactions]="record.sales.HooverGo"></app-sales-table>
+    </div>
+    </div>
+  </mat-expansion-panel>
 
-  <div *ngIf="record.sales.HooverClean">
-    <h3>HooverClean:</h3>
-    <app-sales-table [transactions]="record.sales.HooverClean"></app-sales-table>
-  </div>
-  <div *ngIf="record.sales.HooverGo">
-    <h3>HooverGo:</h3>
-    <app-sales-table [transactions]="record.sales.HooverGo"></app-sales-table>
-  </div>
-
- <mat-divider></mat-divider>
- <div class="headline">
-  <h2>Social Performance Evaluation:</h2>
-  <button mat-icon-button color="accent" aria-label="edit">
-    <mat-icon>edit</mat-icon>
-  </button>
-</div>
-
- <app-social-table *ngIf="record.socialPerfomances; else elseBlock " [socialPerfomances]="record.socialPerformances"></app-social-table>
- <ng-template #elseBlock>No Social Perfomance Evaluation found</ng-template>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Social Performance:
+     </mat-panel-title>
+     <mat-panel-description>
+        Bonus B: {{this.record.totalBonusB || 0 | currency}}
+       </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="headline"><div>Status: {{record.status}}</div>
+    <app-dialog-edit-social [ratings]="record.socialPerfomances" (dialogResult)="updateSocialRating($event)" ></app-dialog-edit-social>
+    </div>
+    <app-social-table *ngIf="record.socialPerfomances; else elseBlock " [socialPerfomances]="record.socialPerfomances"></app-social-table>
+    <ng-template #elseBlock>No Social Perfomance Evaluation found</ng-template>
 
 </mat-expansion-panel>
+
+<div class="headline">
+<form class="remarksform">
+  <mat-form-field class="full-width">
+    <mat-label>Leave a comment</mat-label>
+    <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+  </mat-form-field>
+</form>
+<h3>
+Total Bonus: {{this.record.totalBonusA + (this.record.totalBonusB || 0) | currency}}
+</h3>
+</div>
+
+
+<button mat-flat-button color="primary" aria-label="edit">
+  <mat-icon>save</mat-icon>Save
+</button>
+ <button mat-flat-button color="accent" aria-label="edit">
+  <mat-icon>send</mat-icon>Release
+</button>
+
+
+</mat-expansion-panel>
+</div>
+

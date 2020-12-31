@@ -1,0 +1,46 @@
+
+<h2 mat-dialog-title>Test</h2>
+
+<mat-dialog-content>
+
+  <form *ngFor="let rating of ratings" class="remarksform">
+    <mat-form-field class="full-width">
+      <mat-label>Skill</mat-label>
+      <input [(ngModel)]="rating.skill" [ngModelOptions]="{standalone: true}" matInput placeholder="Competence.">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Target</mat-label>
+      <input [(ngModel)]="rating.target" matInput placeholder="4" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Actual</mat-label>
+      <input [(ngModel)]="rating.actual"matInput placeholder="4" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <!--
+    <mat-form-field class="full-width">
+      <mat-label>Bonus</mat-label>
+      <input [(ngModel)]="rating.bonus" matInput placeholder="0">
+    </mat-form-field>
+  -->
+    <mat-form-field class="full-width">
+      <mat-label>Remark</mat-label>
+      <input [(ngModel)]="rating.remarks" matInput placeholder="Leave a Comment" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+  </form>
+  <button mat-icon-button color="accent" aria-label="edit"  (click)="addRow()">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-dialog-content>
+
+<!--
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
+</mat-dialog-actions>
+-->
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button [mat-dialog-close]="true" mat-primary (click)="save()">Save</button>
+</mat-dialog-actions>

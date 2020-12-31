@@ -1,19 +1,19 @@
-<div class="example-container mat-elevation-z1">
+<div class="container mat-elevation-z1">
   <table mat-table [dataSource]="socialPerfomances">
     <!-- ClientName Column -->
-    <ng-container matColumnDef="clientName">
+    <ng-container matColumnDef="skill">
       <th mat-header-cell *matHeaderCellDef>Skill</th>
       <td mat-cell *matCellDef="let rating"> {{rating.skill}} </td>
       <td mat-footer-cell *matFooterCellDef> Total </td>
     </ng-container>
     <!-- ClientRating Column -->
-    <ng-container matColumnDef="clientRating">
+    <ng-container matColumnDef="target">
       <th mat-header-cell *matHeaderCellDef>Rating</th>
       <td mat-cell *matCellDef="let rating"> {{rating.target}} </td>
       <td mat-footer-cell *matFooterCellDef> </td>
     </ng-container>
      <!-- items Column -->
-     <ng-container matColumnDef="items">
+     <ng-container matColumnDef="actual">
       <th mat-header-cell *matHeaderCellDef>Items</th>
       <td mat-cell *matCellDef="let rating"> {{rating.actual}} </td>
       <td mat-footer-cell *matFooterCellDef> </td>
