@@ -10,9 +10,9 @@ import { SocialRating } from '../../models/model';
 export class SocialTableComponent implements OnInit {
 
 
-  displayedColumns = ['skill', 'target', "actual", "bonus", "remarks"];
+  displayedColumns = ['description', 'target', "actual", "bonus", "remarks"];
 
-  @Input() socialPerfomances: SocialRating[]
+  @Input() socialPerformances: SocialRating[]
 
 
   getTotalCost() {

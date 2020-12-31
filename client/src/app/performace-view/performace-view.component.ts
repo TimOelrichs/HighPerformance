@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EvaluationRecordService } from '../evaluation-record.service'
+import { EvaluationRecordService } from '../evaluation-record.service';
 import { SalesmanService } from '../salesman.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 

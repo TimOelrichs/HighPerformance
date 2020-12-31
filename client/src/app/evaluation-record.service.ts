@@ -14,5 +14,9 @@ export class EvaluationRecordService {
     return this.http.get(this.erUrl+id)
   }
 
+  updateEvaluationRecord(id, record) {
+    return this.http.put(this.erUrl + id, record);
+  }
+
 
 }

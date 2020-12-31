@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {Record, Sale, Sales, SocialRating} from '../../models/model'
-
+import { EvaluationRecordService } from '../evaluation-record.service';
 
 @Component({
   selector: 'app-perfomance-record',
@@ -11,11 +11,22 @@ import {Record, Sale, Sales, SocialRating} from '../../models/model'
 export class PerfomanceRecordComponent implements OnInit {
 
   @Input() record: Record;
-  constructor() { }
+  constructor(private erService: EvaluationRecordService) { }
 
   ngOnInit(): void {
     this.calcTotalSaleBonus();
   }
+
+  updateRecordToDB() {
+    console.log(this.record)
+    this.record.totalBonus = this.record.totalBonusA + this.record.totalBonusB;
+    this.erService.updateEvaluationRecord(this.record._id, this.record)
+    .subscribe(data => {
+      console.log(data)
+    },
+      (err) => console.log(err),
+      () => { console.log("EvaluationRecord hopefully saved") })
+}
 
 
   calcTotalSaleBonus() {
@@ -66,9 +77,10 @@ export class PerfomanceRecordComponent implements OnInit {
 
 
   updateSocialRating(ratings: any[]) {
-    this.record.socialPerfomances = this.calcTotalSocialBonus(ratings);
-    this.record.totalBonusB = this.record.socialPerfomances.map(r => r.bonus).reduce((acc, value) => acc + value, 0);
-    console.log(this.record.socialPerfomances);
+    this.record.status = "edited: " + new Date().toUTCString();
+    this.record.socialPerformances = this.calcTotalSocialBonus(ratings);
+    this.record.totalBonusB = this.record.socialPerformances.map(r => r.bonus).reduce((acc, value) => acc + value, 0);
+    console.log(this.record.socialPerformances);
   }
 
   calcTotalSocialBonus(ratings) {
@@ -82,10 +94,10 @@ export class PerfomanceRecordComponent implements OnInit {
 
 
   calcSocialBonus(record) {
-    if (record.target && record.actual) {
-      if (record.actual == record.target) return 50;
-      if (record.actual > record.target) return 100;
-      if (record.target-record.actual == 1) return 20;
+    if (record.targetValue && record.actualValue) {
+      if (record.actualValue == record.targetValue) return 50;
+      if (record.actualValue > record.targetValue) return 100;
+      if (record.targetValue-record.actualValue == 1) return 20;
       return 0;
     }
   }

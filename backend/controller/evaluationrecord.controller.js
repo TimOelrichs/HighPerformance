@@ -49,7 +49,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
     console.log(`[PUT] EvaluationRecordById ${id}`);
-    model.updateOne({ "goalId": id }, req.body).then((result) => {
+    model.updateOne({ "_id": id }, req.body).then((result) => {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't UPDATE id: ${id}`);

@@ -21,9 +21,11 @@
         Bonus A: {{this.record.totalBonusA | currency}}
        </mat-panel-description>
     </mat-expansion-panel-header>
+    <!--
     <div class="headline"><div>Status: {{record.status}}</div>
     <app-dialog-edit-social></app-dialog-edit-social>
     </div>
+     -->
 
     <div class="orderBox">
     <div *ngIf="record.sales.HooverClean">
@@ -47,9 +49,9 @@
        </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="headline"><div>Status: {{record.status}}</div>
-    <app-dialog-edit-social [ratings]="record.socialPerfomances" (dialogResult)="updateSocialRating($event)" ></app-dialog-edit-social>
+    <app-dialog-edit-social [ratings]="record.socialPerformances" (dialogResult)="updateSocialRating($event)" ></app-dialog-edit-social>
     </div>
-    <app-social-table *ngIf="record.socialPerfomances; else elseBlock " [socialPerfomances]="record.socialPerfomances"></app-social-table>
+    <app-social-table *ngIf="record.socialPerformances[0]; else elseBlock " [socialPerformances]="record.socialPerformances"></app-social-table>
     <ng-template #elseBlock>No Social Perfomance Evaluation found</ng-template>
 
 </mat-expansion-panel>
@@ -58,7 +60,7 @@
 <form class="remarksform">
   <mat-form-field class="full-width">
     <mat-label>Leave a comment</mat-label>
-    <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+    <textarea [(ngModel)]="record.remarks" [ngModelOptions]="{standalone: true}" matInput placeholder="Ex. It makes me feel..."></textarea>
   </mat-form-field>
 </form>
 <h3>
@@ -67,7 +69,7 @@ Total Bonus: {{this.record.totalBonusA + (this.record.totalBonusB || 0) | curren
 </div>
 
 
-<button mat-flat-button color="primary" aria-label="edit">
+<button (click)="updateRecordToDB()" mat-flat-button color="primary" aria-label="edit">
   <mat-icon>save</mat-icon>Save
 </button>
  <button mat-flat-button color="accent" aria-label="edit">

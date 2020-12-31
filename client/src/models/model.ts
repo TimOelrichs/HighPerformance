@@ -5,10 +5,10 @@ export interface Record {
   sales: Sales,
   status: String,
   totalBonusA: Number | any,
-  socialPerfomances: Array<any>,
+  socialPerformances: Array<any>,
   totalBonusB?: Number | any,
   totalBonus?: Number | any,
-
+  remarks?: String,
 }
 
 
@@ -29,9 +29,9 @@ export interface Sale{
 
 export interface SocialRating{
   _id?: String,
-  skill?: String,
-  target?: Number | any,
-  actual?: Number | any,
+  goalDescription?: String,
+  targetValue?: Number | any,
+  actualValue?: Number | any,
   bonus?: Number | any,
   remarks?: String
 }

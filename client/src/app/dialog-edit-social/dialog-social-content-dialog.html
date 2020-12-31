@@ -6,15 +6,15 @@
   <form *ngFor="let rating of ratings" class="remarksform">
     <mat-form-field class="full-width">
       <mat-label>Skill</mat-label>
-      <input [(ngModel)]="rating.skill" [ngModelOptions]="{standalone: true}" matInput placeholder="Competence.">
+      <input [(ngModel)]="rating.goalDescription" [ngModelOptions]="{standalone: true}" matInput placeholder="Competence.">
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Target</mat-label>
-      <input [(ngModel)]="rating.target" matInput placeholder="4" [ngModelOptions]="{standalone: true}">
+      <input [(ngModel)]="rating.targetValue" matInput placeholder="4" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
     <mat-form-field class="full-width">
       <mat-label>Actual</mat-label>
-      <input [(ngModel)]="rating.actual"matInput placeholder="4" [ngModelOptions]="{standalone: true}">
+      <input [(ngModel)]="rating.actualValue"matInput placeholder="4" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
     <!--
     <mat-form-field class="full-width">

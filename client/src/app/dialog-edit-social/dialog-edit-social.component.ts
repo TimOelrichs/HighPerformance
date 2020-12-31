@@ -47,7 +47,7 @@ export class DialogEditSocialContent {
   constructor(
     public dialogRef: MatDialogRef<DialogEditSocialContent>,
     @Inject(MAT_DIALOG_DATA) public data: SocialRating[]) {
-    if (!data) {
+    if (!data[0]) {
       this.ratings = [];
       this.ratings.push({});
     } else {
