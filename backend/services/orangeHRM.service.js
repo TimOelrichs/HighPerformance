@@ -58,8 +58,9 @@ async function getEmployeeBonusSalaryById(id) {
 }
 
 async function postEmployeeBonusSalary(id, body) {
+    let data = qs.stringify(body)
     console.log(`[Post] Employee bonussalary by Id: ${id}`)
-    let res = await axios.post(`${baseUrl}/api/v1/employee/${id}/bonussalary`, body, config);
+    let res = await axios.post(`${baseUrl}/api/v1/employee/${id}/bonussalary`, data, config);
     console.log(res.data);
     return res.data;
 }
@@ -85,6 +86,7 @@ async function getEmployeeImage(id) {
 }
 
 
+
 //getOrangeHRMToken().then(()=> getEmployeeImage(8)).then(res => console.log(res))
 
 exports.orangeHRMService = {
@@ -95,10 +97,19 @@ exports.orangeHRMService = {
     postEmployeeBonusSalary,
     getEmployeeBonusSalaryById,
     getEmployeeById,
+    config,
 
 }
 
 
+/*
+let id = 2;
+
+getOrangeHRMToken()
+    .then(() => postEmployeeBonusSalary(id, { year: "2015", value: "1500" }))
+    .then(() => getEmployeeBonusSalaryById(id))
+    .then(() => getEmployeeContactDetails(id))
+    .catch(() => console.log("OhOh!"));
 
 
 /*

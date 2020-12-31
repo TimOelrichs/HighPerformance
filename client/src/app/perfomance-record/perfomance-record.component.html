@@ -72,8 +72,8 @@ Total Bonus: {{this.record.totalBonusA + (this.record.totalBonusB || 0) | curren
 <button (click)="updateRecordToDB()" mat-flat-button color="primary" aria-label="edit">
   <mat-icon>save</mat-icon>Save
 </button>
- <button mat-flat-button color="accent" aria-label="edit">
-  <mat-icon>send</mat-icon>Release
+ <button (click)="publishToOrangeHRM()"mat-flat-button color="accent" aria-label="edit">
+  <mat-icon>send</mat-icon>Publish
 </button>
 
 

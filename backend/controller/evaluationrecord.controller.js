@@ -1,4 +1,5 @@
 const model = require('../models/EvaluationRecord')
+let { orangeHRMService } = require("../services/orangeHRM.service");
 
 //Create and Save a new EvaluationRecord
 exports.create = (req, res) => {
@@ -53,6 +54,24 @@ exports.update = (req, res) => {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't UPDATE id: ${id}`);
+        res.status(404).send("EvaluationRecord not found!");
+    });
+    
+};
+
+exports.publish = (req, res) => {
+    const id = req.params.id;
+    console.log(`[Post] Publish EvaluationRecordById ${req.body.salesman.orangeHRMId}`);
+    let bonusSalaryBody = { year: req.body.year, value: req.body.totalBonus };
+    //let bonusSalaryBody = { year: "2015", value: "1500" };
+    console.log(bonusSalaryBody);
+    orangeHRMService.getOrangeHRMToken()
+        .then(() => orangeHRMService.postEmployeeBonusSalary(req.body.salesman.orangeHRMId, bonusSalaryBody))
+        .then(result => { 
+            console.log("published to OrangeHRM");
+    model.updateOne({ "_id": id }, req.body).then((result) => res.status(201).send(result))
+     } ).catch(() => {
+        console.log(`Ohh, couldn't UPDATE and publish id: ${id}`);
         res.status(404).send("EvaluationRecord not found!");
     });
     

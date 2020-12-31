@@ -28,6 +28,18 @@ export class PerfomanceRecordComponent implements OnInit {
       () => { console.log("EvaluationRecord hopefully saved") })
 }
 
+  publishToOrangeHRM() {
+    console.log(this.record)
+    this.record.status = "published: " + new Date().toUTCString();
+    this.record.totalBonus = this.record.totalBonusA + this.record.totalBonusB;
+    this.erService.publishEvaluationRecord(this.record._id, this.record)
+    .subscribe(data => {
+      console.log(data)
+    },
+      (err) => console.log(err),
+      () => { console.log("EvaluationRecord hopefully saved") })
+  }
+
 
   calcTotalSaleBonus() {
 
