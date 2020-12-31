@@ -15,6 +15,7 @@ import { SalesTableComponent } from './sales-table/sales-table.component';
 import { SocialTableComponent } from './social-table/social-table.component';
 import { DialogEditSocialComponent, DialogEditSocialContent } from './dialog-edit-social/dialog-edit-social.component';
 import { FormsModule } from '@angular/forms';
+import { DialogAddRecordComponent } from './dialog-add-record/dialog-add-record.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     SocialTableComponent,
     DialogEditSocialComponent,
     DialogEditSocialContent,
+    DialogAddRecordComponent,
   ],
   imports: [
     BrowserModule,

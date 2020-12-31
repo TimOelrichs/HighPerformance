@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 import {Record, Sale, Sales, SocialRating} from '../../models/model'
 import { EvaluationRecordService } from '../evaluation-record.service';
 
@@ -11,10 +13,18 @@ import { EvaluationRecordService } from '../evaluation-record.service';
 export class PerfomanceRecordComponent implements OnInit {
 
   @Input() record: Record;
-  constructor(private erService: EvaluationRecordService) { }
+  constructor(
+    private _snackBar: MatSnackBar,
+    private erService: EvaluationRecordService) { }
 
   ngOnInit(): void {
     this.calcTotalSaleBonus();
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   updateRecordToDB() {
@@ -25,7 +35,7 @@ export class PerfomanceRecordComponent implements OnInit {
       console.log(data)
     },
       (err) => console.log(err),
-      () => { console.log("EvaluationRecord hopefully saved") })
+      () => { this.openSnackBar("Save to Db", "Ok") })
 }
 
   publishToOrangeHRM() {
@@ -37,7 +47,7 @@ export class PerfomanceRecordComponent implements OnInit {
       console.log(data)
     },
       (err) => console.log(err),
-      () => { console.log("EvaluationRecord hopefully saved") })
+      () => { this.openSnackBar("published BonusSalay to OrangeHRM", "Ok") })
   }
 
 
