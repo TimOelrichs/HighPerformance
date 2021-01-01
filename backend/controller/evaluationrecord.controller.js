@@ -63,7 +63,6 @@ exports.publish = (req, res) => {
     const id = req.params.id;
     console.log(`[Post] Publish EvaluationRecordById ${req.body.salesman.orangeHRMId}`);
     let bonusSalaryBody = { year: req.body.year, value: req.body.totalBonus };
-    //let bonusSalaryBody = { year: "2015", value: "1500" };
     console.log(bonusSalaryBody);
     orangeHRMService.getOrangeHRMToken()
         .then(() => orangeHRMService.postEmployeeBonusSalary(req.body.salesman.orangeHRMId, bonusSalaryBody))

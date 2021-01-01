@@ -52,4 +52,18 @@ export class PerformaceViewComponent implements OnInit {
         () => { this.loadingER = false; console.log("EvaluationRecord loading Done") })
   }
 
+
+  addEvaluationRecord(year): void {
+    if (!year) return;
+    let record = {
+      year: year,
+      salesman: this.salesman,
+      status: "created on" + new Date().toUTCString(),
+      socialPerformances: []
+
+    }
+    console.log(record)
+    this.er.push(record);
+  }
+
 }

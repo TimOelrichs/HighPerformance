@@ -6,20 +6,23 @@ h3 {
 .headline {
   display: flex;
   justify-content: space-between;
-  margin: 0px 15px;
+  margin: 0px 15px 0px 15px;
 }
 
-.orderBox {
+.ordersBox {
   display: flex;
   justify-content: space-around;
 }
 
 app-sales-table {
-  width: 500px;
+  width: 50%;
 }
 
+.orderBox {
+  width: 50%;
+}
 .table {
-  width: 500px;
+  width: 50%;
 }
 
 #container {
@@ -35,7 +38,7 @@ mat-expansion-panel-header {
 .remarksform {
   margin-top: 15px;
   width: 500px;
-  height: 100px;
+  height: auto;
 }
 
 .full-width {
@@ -45,5 +48,9 @@ mat-expansion-panel-header {
 
 textarea {
   width: 500px;
-  height: 200px;
+  height: auto;
+}
+
+.actionsBox {
+  margin-top: 15px;
 }

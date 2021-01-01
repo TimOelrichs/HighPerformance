@@ -18,7 +18,8 @@ export class PerfomanceRecordComponent implements OnInit {
     private erService: EvaluationRecordService) { }
 
   ngOnInit(): void {
-    this.calcTotalSaleBonus();
+    if (this.record.sales) this.calcTotalSaleBonus();
+    if (this.record.socialPerformances) this.calcTotalSocialBonus(null);
   }
 
   openSnackBar(message: string, action: string) {
@@ -27,26 +28,40 @@ export class PerfomanceRecordComponent implements OnInit {
     });
   }
 
-  updateRecordToDB() {
+
+  saveRecordToDB() {
     console.log(this.record)
-    this.record.totalBonus = this.record.totalBonusA + this.record.totalBonusB;
-    this.erService.updateEvaluationRecord(this.record._id, this.record)
-    .subscribe(data => {
-      console.log(data)
-    },
-      (err) => console.log(err),
+    this.record.totalBonus = this.record.totalBonusA || 0 + this.record.totalBonusB || 0;
+    if (this.record._id) {
+      this.erService.updateEvaluationRecord(this.record._id, this.record)
+        .subscribe(data => {
+          //console.log(data)
+        },
+          (err) => this.openSnackBar("Error", err),
+          () => { this.openSnackBar("Save to Db", "Ok") })
+    }
+    else {
+      this.erService.createEvaluationRecord(this.record)
+        .subscribe(data  => {
+          this.record._id = data["_id"];
+      },  (err) => this.openSnackBar("Error", err),
       () => { this.openSnackBar("Save to Db", "Ok") })
-}
+    }
+  }
+
+  isEditable() {
+    return !this.record.status.startsWith('published');
+  }
 
   publishToOrangeHRM() {
     console.log(this.record)
     this.record.status = "published: " + new Date().toUTCString();
-    this.record.totalBonus = this.record.totalBonusA + this.record.totalBonusB;
+    this.record.totalBonus = this.record.totalBonusA || 0 + this.record.totalBonusB || 0;
     this.erService.publishEvaluationRecord(this.record._id, this.record)
     .subscribe(data => {
       console.log(data)
     },
-      (err) => console.log(err),
+      (err) => this.openSnackBar("Error", err),
       () => { this.openSnackBar("published BonusSalay to OrangeHRM", "Ok") })
   }
 
@@ -105,12 +120,13 @@ export class PerfomanceRecordComponent implements OnInit {
     console.log(this.record.socialPerformances);
   }
 
-  calcTotalSocialBonus(ratings) {
+  calcTotalSocialBonus(data) {
+    let ratings = data || this.record.socialPerformances;
     for (let rating of ratings) {
       rating.bonus = this.calcSocialBonus(rating);
     }
 
-    return ratings;
+    return data;
   }
 
 

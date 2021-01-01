@@ -4,7 +4,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 import { SocialRating } from '../../models/model';
 
 
-
 @Component({
   selector: 'app-dialog-edit-social',
   templateUrl: './dialog-edit-social.component.html',

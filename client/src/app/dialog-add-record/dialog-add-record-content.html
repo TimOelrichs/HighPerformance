@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Add new Performance Record</h2>
+
+<form class="form">
+  <mat-form-field class="full-width">
+    <mat-label>Year</mat-label>
+    <input [(ngModel)]="year" [ngModelOptions]="{standalone: true}" matInput placeholder="Ex. Pizza" value="Sushi">
+  </mat-form-field>
+
+</form>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button [mat-dialog-close]="true" mat-primary (click)="save()">Save</button>
+</mat-dialog-actions>

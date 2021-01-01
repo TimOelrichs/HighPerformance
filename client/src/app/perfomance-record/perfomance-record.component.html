@@ -11,14 +11,14 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <div class="headline"><div>Status: {{record.status}}</div></div>
+  <div class="headline"><div><b>Status:</b> {{record.status}}</div></div>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Orders Evaluation:
      </mat-panel-title>
      <mat-panel-description>
-        Bonus A: {{this.record.totalBonusA | currency}}
+        Bonus A: {{this.record.totalBonusA || 0 | currency}}
        </mat-panel-description>
     </mat-expansion-panel-header>
     <!--
@@ -27,15 +27,22 @@
     </div>
      -->
 
-    <div class="orderBox">
-    <div *ngIf="record.sales.HooverClean">
+    <div class="ordersBox">
+    <div *ngIf="record?.sales?.HooverClean; else elseBlockHC" class="orderBox">
       <h3>HooverClean:</h3>
       <app-sales-table class="table" [transactions]="record.sales.HooverClean"></app-sales-table>
     </div>
-    <div *ngIf="record.sales.HooverGo">
+    <ng-template #elseBlockHC>
+      <h3>HooverClean:</h3>
+      No Orders found in openCRX</ng-template>
+
+    <div *ngIf="record?.sales?.HooverGo; else elseBlockHG"  class="orderBox">
       <h3>HooverGo:</h3>
       <app-sales-table class="table" [transactions]="record.sales.HooverGo"></app-sales-table>
     </div>
+    <ng-template #elseBlockHG>
+      <h3>HooverGo:</h3>
+      No Orders found in openCRX</ng-template>
     </div>
   </mat-expansion-panel>
 
@@ -48,11 +55,11 @@
         Bonus B: {{this.record.totalBonusB || 0 | currency}}
        </mat-panel-description>
     </mat-expansion-panel-header>
-    <div class="headline"><div>Status: {{record.status}}</div>
-    <app-dialog-edit-social [ratings]="record.socialPerformances" (dialogResult)="updateSocialRating($event)" ></app-dialog-edit-social>
+    <div class="headline"><div></div>
+    <app-dialog-edit-social *ngIf="isEditable()" [ratings]="record.socialPerformances" (dialogResult)="updateSocialRating($event)" ></app-dialog-edit-social>
     </div>
-    <app-social-table *ngIf="record.socialPerformances[0]; else elseBlock " [socialPerformances]="record.socialPerformances"></app-social-table>
-    <ng-template #elseBlock>No Social Perfomance Evaluation found</ng-template>
+    <app-social-table *ngIf="record.socialPerformances[0]; else elseBlockSP" [socialPerformances]="record.socialPerformances"></app-social-table>
+    <ng-template #elseBlockSP>No Social Perfomance Evaluation found</ng-template>
 
 </mat-expansion-panel>
 
@@ -60,22 +67,22 @@
 <form class="remarksform">
   <mat-form-field class="full-width">
     <mat-label>Leave a comment</mat-label>
-    <textarea [(ngModel)]="record.remarks" [ngModelOptions]="{standalone: true}" matInput placeholder="Ex. It makes me feel..."></textarea>
+    <textarea [disabled]="!isEditable()" [(ngModel)]="record.remarks" [ngModelOptions]="{standalone: true}" matInput placeholder="Ex. It makes me feel..."></textarea>
   </mat-form-field>
 </form>
 <h3>
-Total Bonus: {{this.record.totalBonusA + (this.record.totalBonusB || 0) | currency}}
+Total Bonus: {{(this.record.totalBonusA || 0) + (this.record.totalBonusB || 0) | currency}}
 </h3>
 </div>
 
-
-<button (click)="updateRecordToDB()" mat-flat-button color="primary" aria-label="edit">
+<div class="actionsBox" *ngIf="isEditable()">
+<button (click)="saveRecordToDB()" mat-flat-button color="primary" aria-label="edit">
   <mat-icon>save</mat-icon>Save
 </button>
- <button (click)="publishToOrangeHRM()"mat-flat-button color="accent" aria-label="edit">
+ <button (click)="publishToOrangeHRM()" [disabled]="!this.record._id" mat-flat-button color="accent" aria-label="edit">
   <mat-icon>send</mat-icon>Publish
 </button>
-
+</div>
 
 </mat-expansion-panel>
 </div>

@@ -16,12 +16,15 @@
 </mat-card>
 </div>
   <div id="records">
-
+    <mat-accordion>
     <app-perfomance-record *ngFor="let r of this.er" [record]="r">
     </app-perfomance-record>
-
+  </mat-accordion>
   </div>
 </div>
 
+<app-dialog-add-record (dialogResult)="addEvaluationRecord($event)" id="addBtn"></app-dialog-add-record>
+<!--
   <button id="addBtn" mat-fab  aria-label="Example icon button with a bookmark icon">
     <mat-icon>addchart</mat-icon>
+-->

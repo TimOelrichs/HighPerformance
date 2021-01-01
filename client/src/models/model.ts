@@ -1,6 +1,6 @@
 export interface Record {
   _id : String,
-  year: Number,
+  year: Number | any,
   salesman: Object,
   sales: Sales,
   status: String,
