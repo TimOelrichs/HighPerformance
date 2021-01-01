@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Salesman } from '../salesman'
-import { SalesmanService } from '../salesman.service';
+import { Salesman } from '../../models/salesman'
+import { SalesmanService } from '../../services/salesman.service';
 import { Observable, of } from 'rxjs';
 
 @Component({

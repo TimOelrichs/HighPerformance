@@ -5,17 +5,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SalesManListComponent } from './sales-man-list/sales-man-list.component';
-import { ToolbarComponent } from './toolbar/toolbar.component'
+import { SalesManListComponent } from './components/sales-man-list/sales-man-list.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component'
 import { MaterialModule } from './material-module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
-import { PerformaceViewComponent } from './performace-view/performace-view.component';
-import { PerfomanceRecordComponent } from './perfomance-record/perfomance-record.component';
-import { SalesTableComponent } from './sales-table/sales-table.component';
-import { SocialTableComponent } from './social-table/social-table.component';
-import { DialogEditSocialComponent, DialogEditSocialContent } from './dialog-edit-social/dialog-edit-social.component';
+import { PerformaceViewComponent } from './components/performace-view/performace-view.component';
+import { PerfomanceRecordComponent } from './components/perfomance-record/perfomance-record.component';
+import { SalesTableComponent } from './components/sales-table/sales-table.component';
+import { SocialTableComponent } from './components/social-table/social-table.component';
+import { DialogEditSocialComponent, DialogEditSocialContent } from './components/dialog-edit-social/dialog-edit-social.component';
 import { FormsModule } from '@angular/forms';
-import { DialogAddRecordComponent,DialogAddRecordContent } from './dialog-add-record/dialog-add-record.component';
+import { DialogAddRecordComponent,DialogAddRecordContent } from './components/dialog-add-record/dialog-add-record.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { DialogAddRecordComponent,DialogAddRecordContent } from './dialog-add-re
     DialogEditSocialContent,
     DialogAddRecordComponent,
     DialogAddRecordContent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import {Record, Sale, Sales, SocialRating} from '../../models/model'
-import { EvaluationRecordService } from '../evaluation-record.service';
+import { EvaluationRecordService } from '../../services/evaluation-record.service';
 
 @Component({
   selector: 'app-perfomance-record',
