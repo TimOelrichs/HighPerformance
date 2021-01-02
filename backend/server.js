@@ -5,10 +5,14 @@ const   express = require("express"),
         swaggerUi = require("swagger-ui-express"),
         path = require('path');
 
+//import to MongoDB if DB is empty
+require('./util/DBimportAll');
+
+
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: ["http://localhost:4200"], credentials: true
 }
 
 //middleware
@@ -30,6 +34,7 @@ app.use(
 );
 
 //set port, listen for request
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`)

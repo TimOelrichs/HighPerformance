@@ -6,22 +6,25 @@ let { adapter } = require("./adapter");
 const { model } = require('../models/Salesman');
 const evaluationRecord = require('../models/EvaluationRecord')
 
-
-console.log("[Info] Ready to import EvaluationRecords to MongoDB")
-openCRXService.getAllSalesOrdersAsEvaluationRecord()
-    .then(records => {
-        records.forEach(record => {
-            record.status = "angereichert";
-            record.totalBonusA = 0;
-            evaluationRecord.create(record)
-                //.then(er => console.log("EvaluationRecord saved sucessfully"))   
-                .catch(err => console.log(err))
+async function importSalesOrdersToMongoDB() {
+    console.log("[Info] Ready to import EvaluationRecords to MongoDB")
+   await openCRXService.getAllSalesOrdersAsEvaluationRecord()
+       .then(records => {
+            let promises = [];
+            records.forEach(record => {
+                record.status = "imported " + new Date().toUTCString();
+                record.totalBonusA = 0;
+                let p = evaluationRecord.create(record)
+                promises.push(p);
+            })
+            return Promise.all(promises);
         })
-        return records;
-    })
-    .then(records => console.log(`[Info] saved ${records.length} EvaluationRecords to mongoDB`))
-    .catch((err) => console.log(err))
+        .then(records => console.log(`[Info] saved ${records.length} EvaluationRecords to mongoDB`))
+        .catch((err) => console.log(err))
 
+}
+
+module.exports = importSalesOrdersToMongoDB;
 
     /*
 //deprecated see importSalesOrdersToDB

@@ -2,19 +2,16 @@ let { orangeHRMService } = require("../services/orangeHRM.service");
 let { openCRXService } = require("../services/openCRX.service")
 const { model } = require('../models/Salesman')
 
-
 async function importSalesmenToMongoDB() {
 
-    console.log("[Info] Ready to import Salesman from OrangeHRM and openCRX to MongoDB");
+    //console.log("[Info] Ready to import Salesman from OrangeHRM and openCRX to MongoDB");
     let salesmen = [];
 
     console.log("[Info] ...Loading Salesman from OrangeHRM");
-    await orangeHRMService.getOrangeHRMToken()
+    salesmen = await orangeHRMService.getOrangeHRMToken()
         .then(() => orangeHRMService.getAllEmployees())
         .then(res => res.data.filter((employee => employee.unit === "Sales")))
-        .then(res => res.forEach(s => {
-            
-            salesmen.push({
+        .then(res => res.map(s => ({
                 fullName: s.fullName,
                 firstName: s.firstName,
                 middleName: s.middleName,
@@ -24,10 +21,8 @@ async function importSalesmenToMongoDB() {
                 department: s.unit,
                 jobTitle: s.jobTitle,
                 imgUrl: `http://localhost:8080/img/${s.employeeId}.png`
-            })
-        }
-        ))
-        .catch((error) => console.log(error));
+        })))
+    .catch(err => console.log(err))
     
     console.log("[Info] ...loading openCRX ids")
     await openCRXService.getAllAcounts()
@@ -47,13 +42,16 @@ async function importSalesmenToMongoDB() {
         .catch(error => console.log(error))
     
     console.log("[Info] ...save Salesman to MongoDB");
-    salesmen.forEach(sm => {
-        model.create(sm)
-            .then((res) => console.log("saved ", sm.fullName))
-            .catch(() => {
-            console.log("Ohh, couldn't create ", sm.fullName);
-        });
+    let promises = [];
+    salesmen.forEach(async sm => {
+        let p = model.create(sm)
+        promises.push(p);
     })
+
+    return await Promise.all(promises)
 }
-    
-importSalesmenToMongoDB()
+  
+
+// importSalesmenToMongoDB()
+
+module.exports = importSalesmenToMongoDB;

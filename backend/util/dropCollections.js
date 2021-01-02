@@ -11,4 +11,4 @@ evaluationRecord.collection.drop()
     .then(() => console.log("EvaluationRecords Collection deleted"))
     .catch((err) => console.log("Couldn't delete EvaluationRecords Collection. May there is no Collection? ;)"))
 
-console.log("Congrats, you should have an fresh mongoDB");
+//console.log("Congrats, you should have an fresh mongoDB");

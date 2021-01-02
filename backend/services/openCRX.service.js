@@ -17,15 +17,12 @@ const config = {
 
 async function getAllAcounts() {
     const contacts = await axios.get(`${baseUrl}/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account`, config);
-    //console.log(contacts);
     const customers = contacts.data.objects;
-    //console.log(customers);
     return contacts.data
 }
 
 async function getAccountById(id) {
     console.log(`[GET] ...openCRX account by id: ${id}`);
-    // https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account/9DXSJ5D62FBHLH2MA4T2TYJFL
     let res = await axios.get(`${baseUrl}/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account/${id}`, config);
     return res.data;
 }
@@ -107,7 +104,7 @@ async function getAllSalesOrdersAsEvaluationRecord(id, year) {
                                 year: year,
                                 salesman: data[1][index],
                                 sales: {},
-                                status: "angereichert"
+                                status: "imported " + new Date().toUTCString()
                             };
                             data[3][index].map(position => ({
                                 productName: adapter.transformProductIdToName(position.product['@href'].split("product/")[1]),
