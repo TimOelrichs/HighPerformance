@@ -26,7 +26,11 @@
       <mat-label>Remark</mat-label>
       <input [(ngModel)]="rating.remarks" matInput placeholder="Leave a Comment" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
+    <button mat-icon-button color="accent" aria-label="edit"  (click)="deleteRow(rating)">
+      <mat-icon>delete</mat-icon>
+    </button>
   </form>
+
   <button mat-icon-button color="accent" aria-label="edit"  (click)="addRow()">
     <mat-icon>add</mat-icon>
   </button>

@@ -42,13 +42,13 @@ export class DialogEditSocialComponent{
 export class DialogEditSocialContent {
 
   ratings: SocialRating[];
+  defaultGoals = ["Leadership Competence", "Openess to Employee", "Social Behavior to Employee", "Attitude towards Client", "Communication Skills", "Integrity to Company"]
 
   constructor(
     public dialogRef: MatDialogRef<DialogEditSocialContent>,
     @Inject(MAT_DIALOG_DATA) public data: SocialRating[]) {
     if (!data[0]) {
-      this.ratings = [];
-      this.ratings.push({});
+      this.ratings = this.defaultGoals.map(g => ({goalDescription : g}));
     } else {
       this.ratings = data;
     }
@@ -57,6 +57,10 @@ export class DialogEditSocialContent {
   addRow() {
     this.ratings.push({});
   }
+  deleteRow(rating) {
+    this.ratings = this.ratings.filter(r => r != rating);
+  }
+
 
   save(): void {
     this.dialogRef.close(this.ratings);

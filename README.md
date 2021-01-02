@@ -9,5 +9,6 @@ npm install
 npm run start
 cd ..
 cd client
+npm install
 ng serve```
 ````

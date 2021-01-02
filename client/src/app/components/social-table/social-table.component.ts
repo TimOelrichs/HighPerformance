@@ -19,6 +19,17 @@ export class SocialTableComponent implements OnInit {
     //return this.ratings.map(t => t.items).reduce((acc, value) => acc + value, 0);
   }
 
+  getTotalBonus() {
+    return this.socialPerformances.map(t => t.bonus).reduce((acc, value) => acc + value, 0);
+  }
+
+  getAverage(prop) {
+    let sum = this.socialPerformances.map(t => t[prop]).reduce((acc, value) => acc + Number(value), 0)
+    let average = sum / this.socialPerformances.length;
+    console.log(prop, sum)
+    return average.toFixed(1);
+  }
+
   constructor() { }
 
   ngOnInit(): void {

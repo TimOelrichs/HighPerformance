@@ -3,35 +3,35 @@
   <table mat-table [dataSource]="socialPerformances">
     <!-- ClientName Column -->
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef>Skill</th>
+      <th mat-header-cell *matHeaderCellDef>Description</th>
       <td mat-cell *matCellDef="let rating"> {{rating.goalDescription}} </td>
       <td mat-footer-cell *matFooterCellDef> Total </td>
     </ng-container>
     <!-- ClientRating Column -->
     <ng-container matColumnDef="target">
-      <th mat-header-cell *matHeaderCellDef>Rating</th>
+      <th mat-header-cell *matHeaderCellDef>Target Value</th>
       <td mat-cell *matCellDef="let rating"> {{rating.targetValue}} </td>
-      <td mat-footer-cell *matFooterCellDef> </td>
+      <td mat-footer-cell *matFooterCellDef> &Oslash; {{getAverage("targetValue")}}</td>
     </ng-container>
      <!-- items Column -->
      <ng-container matColumnDef="actual">
-      <th mat-header-cell *matHeaderCellDef>Items</th>
+      <th mat-header-cell *matHeaderCellDef>Actual Value</th>
       <td mat-cell *matCellDef="let rating"> {{rating.actualValue}} </td>
-      <td mat-footer-cell *matFooterCellDef> </td>
+      <td mat-footer-cell *matFooterCellDef>  &Oslash; {{getAverage("actualValue")}}</td>
     </ng-container>
 
     <!-- bonus Column -->
     <ng-container matColumnDef="bonus">
       <th mat-header-cell *matHeaderCellDef> Bonus </th>
       <td mat-cell *matCellDef="let rating"> {{rating.bonus | currency}} </td>
-      <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
+      <td mat-footer-cell *matFooterCellDef> {{getTotalBonus() | currency}} </td>
     </ng-container>
 
        <!-- bonus Column -->
        <ng-container matColumnDef="remarks">
         <th mat-header-cell *matHeaderCellDef> remarks </th>
         <td mat-cell *matCellDef="let rating"> {{rating.remarks }} </td>
-        <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
+        <td mat-footer-cell *matFooterCellDef>  </td>
       </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
