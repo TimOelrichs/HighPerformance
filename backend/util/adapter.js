@@ -13,7 +13,7 @@ const transformRating = (rating) => {
 } 
 
 const transformProductIdToName = (id) => {
-    console.log(id)
+    //console.log(id)
     switch (id) {
         case '9JMBMVTX2CSMHH2MA4T2TYJFL':
             return "HooverClean"
