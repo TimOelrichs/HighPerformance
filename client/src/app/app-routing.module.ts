@@ -6,10 +6,7 @@ import { PerformaceViewComponent} from './components/performace-view/performace-
 
 const routes: Routes = [
   { path: '', component: SalesManListComponent },
-  {
-      path: 'performance/:id',
-      component:  PerformaceViewComponent
-  },
+  { path: 'performance/:id', component:  PerformaceViewComponent },
 ];
 
 @NgModule({

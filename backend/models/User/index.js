@@ -1,18 +1,9 @@
 require('../dbConnect');
 
 var UserSchema = new Schema({
-    fullName: String,
-    firstName: String,
-    middleName: String,
-    lastName: String,
-    employeeId: Number,
-    orangeHRMId: Number,
-    openCRXId: String,
-    department: String,
-    jobTitle: String,
-    imgUrl: String
+    username: String,
+    password: String
 });
 
-exports.model = mongoose.model('Salesman', SalesmanSchema);
+exports.model = mongoose.model('User', UserSchema);
 
-exports.SalesmanSchema = SalesmanSchema
