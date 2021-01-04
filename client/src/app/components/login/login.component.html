@@ -1,8 +1,35 @@
+<!--
+<div fxLayoutAlign="center center" fxFlexFill>
+  <mat-card fxFlex="25">
+    <mat-toolbar color="primary">Login Page</mat-toolbar>
+    <form fxLayoutAlign="stretch" fxLayout="column">
+      <mat-form-field >
+        <input matInput placeholder="Username">
+      </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <mat-label>Username:</mat-label>
-      <input [(ngModel)]="username" matInput placeholder="type in username" [ngModelOptions]="{standalone: true}">
-      <mat-label>Username:</mat-label>
-      <input type="password" [(ngModel)]="password" matInput placeholder="type in username" [ngModelOptions]="{standalone: true}">
+      <mat-form-field >
+        <input matInput type="password" placeholder="Password">
+      </mat-form-field>
+      <button mat-raised-button type="submit">Login</button>
+    </form>
+  </mat-card>
 
-    </mat-form-field>
+</div>
+
+//-->
+<form class="form-signin">
+  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+  <label for="inputEmail" class="sr-only">Email address</label>
+  <input type="email" name="userEmail" id="inputEmail" [(ngModel)]="userEmail" class="form-control" placeholder="Email address" required autofocus>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" name="userPassword" id="inputPassword" [(ngModel)]="userPassword" class="form-control" placeholder="Password" required>
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>
+  <button class="btn btn-lg btn-primary btn-block" (click)="login()" type="button">Sign in</button>
+  <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+</form>
+
+
