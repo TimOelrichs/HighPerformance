@@ -13,6 +13,15 @@ Des Weiteren werden die Services wie folgt genutzt:
 1.  über den Endpunkt POST /evaluationrecord/publish um das BonusSalary in OrangeHRM zu speichern (In Angular FrontEnd Angebunden)
 2.  über den Endpoint GET /Sales um Sales aus openCRX neu abzufragen. (In Frontend wenn eine Perfomance Record mit FAB-Button manuell hinzugefügt wird)
 
+Achtung: Die Employee Photos werden mit Pupetter gescrapt. Puppeter benötigt etwas Zeit bei npm install
+
+Einfacher Login ist vorhanden.
+
+user: admin
+password: admin
+
+TODO: User verwalten und LogOut
+
 Anwendung starten
 
 ```console
@@ -23,5 +32,5 @@ npm run start
 cd ..
 cd client
 npm install
-ng serve
+npm run start
 ```
