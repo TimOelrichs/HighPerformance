@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Add Router routes to express app
 require("./routes/evaluationrecord.routes")(app);
 require("./routes/salesman.routes")(app);
+require("./routes/sales.routes")(app);
 
 // Swagger
 const specs = swaggerJsdoc(require('./config/swaggerConfig'));

@@ -48,15 +48,15 @@ async function getSalesOrderPosistions(id) {
     return res.data.objects;
 }
 
-async function getAllSalesOrdersAsEvaluationRecord(id, year) {
+async function getAllSalesOrdersAsEvaluationRecord( params ) {
 
     return getAllSalesOrder()
         .then(res => res.objects)
         .then(orders => orders.filter(order => order.isGift === false))
         .then(orders => orders.filter(order => order.totalBaseAmount != 0))
         //optional filters for Salesman and year
-        //.then(orders => { id ? orders.filter(order => order.salesRep['@href'].split("account/")[1] === id): orders})
-        //.then(orders => { year ? orders.filter(order => order.activeOn.split("-")[0] === year): orders})
+        .then(orders => { return params.id ? orders.filter(order => order.salesRep['@href'].split("account/")[1] == params.id): orders})
+        .then(orders => { return params.year ? orders.filter(order => order.activeOn.split("-")[0].trim() == params.year): orders})
         .then(async orders => {
          
             //Promises for loading data and Schema-transfrom preparation

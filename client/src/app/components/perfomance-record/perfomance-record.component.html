@@ -34,7 +34,11 @@
     </div>
     <ng-template #elseBlockHC>
       <h3>HooverClean:</h3>
-      No Orders found in openCRX</ng-template>
+      No Orders
+      <button (click)="getSales()"  *ngIf="isEditable()" mat-icon-button color="primary"  aria-label="edit">
+        <mat-icon>cloud_download</mat-icon>
+      </button>
+    </ng-template>
 
     <div *ngIf="record?.sales?.HooverGo; else elseBlockHG"  class="orderBox">
       <h3>HooverGo:</h3>
@@ -42,7 +46,10 @@
     </div>
     <ng-template #elseBlockHG>
       <h3>HooverGo:</h3>
-      No Orders found in openCRX</ng-template>
+      No Orders
+      <button (click)="getSales()"  *ngIf="isEditable()" mat-icon-button color="primary"  aria-label="update">
+        <mat-icon>cloud_download</mat-icon>
+      </button></ng-template>
     </div>
   </mat-expansion-panel>
 
