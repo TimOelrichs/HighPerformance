@@ -35,7 +35,7 @@ export class PerfomanceRecordComponent implements OnInit {
     let res = this.salesService.getAllSalesByYearAndID({ id: this.record.salesman.openCRXId, year: this.record.year })
       .subscribe(data => {
         console.log(data);
-        if (data[0]) {
+        if (Array.isArray(data)) {
           this.record.sales = data[0].sales;
           this.calcTotalSaleBonus();
           console.log(this.record);
