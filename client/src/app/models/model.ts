@@ -1,8 +1,10 @@
+import { Salesman } from "./salesman";
+
 export interface Record {
   _id : String,
   year: Number | any,
-  salesman: Object,
-  sales: Sales,
+  salesman: Salesman,
+  sales: Sales | any,
   status: String,
   totalBonusA: Number | any,
   socialPerformances: Array<any>,
@@ -35,3 +37,5 @@ export interface SocialRating{
   bonus?: Number | any,
   remarks?: String
 }
+
+

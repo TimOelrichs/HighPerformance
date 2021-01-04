@@ -3,6 +3,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 
 import {Record, Sale, Sales, SocialRating} from '../../models/model'
 import { EvaluationRecordService } from '../../services/evaluation-record.service';
+import { SalesService } from '../../services/sales.service';
 
 @Component({
   selector: 'app-perfomance-record',
@@ -15,7 +16,8 @@ export class PerfomanceRecordComponent implements OnInit {
   @Input() record: Record;
   constructor(
     private _snackBar: MatSnackBar,
-    private erService: EvaluationRecordService) { }
+    private erService: EvaluationRecordService,
+    private salesService: SalesService) { }
 
   ngOnInit(): void {
     if (this.record.sales) this.calcTotalSaleBonus();
@@ -28,6 +30,24 @@ export class PerfomanceRecordComponent implements OnInit {
     });
   }
 
+  getSales() {
+    console.log(this.record.salesman.openCRXId)
+    let res = this.salesService.getAllSalesByYearAndID({ id: this.record.salesman.openCRXId, year: this.record.year })
+      .subscribe(data => {
+        console.log(data);
+        if (data[0]) {
+          this.record.sales = data[0].sales;
+          this.calcTotalSaleBonus();
+          console.log(this.record);
+          this.openSnackBar("Updated Record", "Ok")
+        } else {
+          this.openSnackBar("No mathcing Sales found in openCRX", "Ok")
+        }
+    },
+      (err) => this.openSnackBar("Error", err),
+        () => { })
+
+  }
 
   saveRecordToDB() {
     console.log(this.record)

@@ -22,11 +22,11 @@ export class SalesTableComponent implements OnInit {
 
 
   getTotalBonus() {
-    return this.transactions.map(t => t.bonus).reduce((acc, value) => acc + value, 0);
+    return this.transactions.map(t => t.bonus).reduce((acc, value) => acc + Number(value), 0);
   }
 
   getTotalItems() {
-    return this.transactions.map(t => t.items).reduce((acc, value) => acc + value, 0);
+    return this.transactions.map(t => t.items).reduce((acc, value) => Number(acc) + Number(value), 0);
   }
 
 
