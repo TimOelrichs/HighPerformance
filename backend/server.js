@@ -36,7 +36,6 @@ app.use(
 //set port, listen for request
 
 let PORT = process.env.PORT || 8080;
-PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`)
 })
