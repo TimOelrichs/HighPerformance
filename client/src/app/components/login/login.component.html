@@ -1,22 +1,22 @@
-<!--
+
 <div fxLayoutAlign="center center" fxFlexFill>
   <mat-card fxFlex="25">
     <mat-toolbar color="primary">Login Page</mat-toolbar>
     <form fxLayoutAlign="stretch" fxLayout="column">
       <mat-form-field >
-        <input matInput placeholder="Username">
+        <input matInput name="userEmail" placeholder="Username" id="inputEmail" [(ngModel)]="userEmail">
       </mat-form-field>
 
       <mat-form-field >
-        <input matInput type="password" placeholder="Password">
+        <input matInput name="userPassword" type="password" placeholder="Password" id="inputPassword" [(ngModel)]="userPassword">
       </mat-form-field>
-      <button mat-raised-button type="submit">Login</button>
+      <button mat-raised-button type="submit" (click)="login()">Login</button>
     </form>
   </mat-card>
 
 </div>
 
-//-->
+<!--
 <form class="form-signin">
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   <label for="inputEmail" class="sr-only">Email address</label>
@@ -31,5 +31,5 @@
   <button class="btn btn-lg btn-primary btn-block" (click)="login()" type="button">Sign in</button>
   <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
 </form>
-
+//-->
 
