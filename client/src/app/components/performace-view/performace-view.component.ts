@@ -47,6 +47,7 @@ export class PerformaceViewComponent implements OnInit {
     this.erService.getEvaluationRecords(this.smId)
       .subscribe(data => {
         this.er = data;
+        this.sortEvaluationRecords();
       },
         (err) => console.log(err),
         () => { this.loadingER = false; console.log("EvaluationRecord loading Done") })
@@ -64,6 +65,11 @@ export class PerformaceViewComponent implements OnInit {
     }
     console.log(record)
     this.er.push(record);
+    this.sortEvaluationRecords();
+  }
+
+  sortEvaluationRecords() {
+    this.er.sort((a, b) => Number(b.year) - Number(a.year));
   }
 
 }
