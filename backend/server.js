@@ -87,6 +87,12 @@ app.post('/authenticate', auth() , (req, res) => {
     res.status(200).json({"statusCode" : 200 ,"user" : req.user});
 });
 
+app.post('/logout',  (req, res) => {
+    console.log("log out")
+    req.logOut();
+    res.status(200).json({"statusCode" : 200 });
+});
+
 const isLoggedIn = (req, res, next) => {
     console.log('session ', req.session);
     if(req.isAuthenticated()){

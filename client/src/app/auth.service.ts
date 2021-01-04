@@ -25,4 +25,10 @@ export class AuthService {
   public validate(email, password) {
     return this.http.post('/api/authenticate', {'username' : email, 'password' : password}).toPromise();
   }
+
+  public logOut() {
+    localStorage.removeItem('userInfo');
+    return this.http.post('/api/logout', {}).toPromise();
+  }
+
 }

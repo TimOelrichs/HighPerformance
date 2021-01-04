@@ -1,5 +1,7 @@
-<mat-toolbar>
+<mat-toolbar class="flex-between">
   <span>Hoover High Perfomance</span>
   <span class="example-spacer"></span>
-
+  <button (click)="logOut()"  *ngIf="isLogedIn()" mat-button mat-primary aria-label="edit">
+   log out
+  </button>
 </mat-toolbar>
