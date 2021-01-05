@@ -5,14 +5,15 @@ const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
-        model.findOne({ "username" : userId })
+        model.findOne({ "userId" : username })
             .then(user => {
-                console.log(user)
                 if(username === "admin" && password === "admin"){
                     delete user.password;
                     return done(null, user);
                 }
-                if(password === user.password){
+                if (password === user.password) {
+                    console.log("LOGIN] ", user);
+                    delete user.password;
                     return done(null, user);
                 }
                 else {
