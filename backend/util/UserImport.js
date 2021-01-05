@@ -7,31 +7,34 @@ async function importUsers() {
     
     try {
         let employees = await orangeHRMService.getOrangeHRMToken()
-        .then(() => orangeHRMService.getAllEmployees());
+            .then(() => orangeHRMService.getAllEmployees());
         let salesmen = employees.data.filter((employee => employee.unit === "Sales"));
-        let editors = employees.data.filter((employee => employee.jobTitle === "CEO" || employee.unit === "HR"));
-        
-        salesmen = salesmen.map(sm => ({
-            username: sm.code,
-            password: "password",
-            role: "user"
-        }));
-        editors = editors.map(sm => ({
-            username: sm.code,
-            password: "password",
-            role: "admin"
-        }));
+        let ceo = employees.data.filter((employee => employee.jobTitle === "CEO"));
+        let hr = employees.data.filter((employee => employee.unit === "HR"))
+            
+        salesmen = salesmen.map(emp => { emp["role"] = "ROLE_USER"; return emp;});
+        ceo = ceo.map(emp => { emp["role"] = "ROLE_CEO"; return emp; } );
+        hr = hr.map(emp => { emp["role"] = "ROLE_HR"; return emp; });
 
-        console.log(salesmen)
+        let all = [...salesmen, ...ceo, ...hr];
+        
+        /*
+        userId: String,
+        fullName: String,
+        password: String,
+        role: String
+        */
+        
+        all = all.map(emp => ({
+            userId: emp.code,
+            fullName: emp.fullName,
+            password: "password",
+            role: emp.role
+        }))
 
         let promises = []
-        salesmen.forEach(user => {
+        all.forEach(user => {
             let p = model.create(user);
-            promises.push(p);
-        });
-
-        editors.forEach(user => {
-            let p = model.create(user)
             promises.push(p);
         });
 

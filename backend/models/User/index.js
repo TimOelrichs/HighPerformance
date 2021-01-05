@@ -1,7 +1,8 @@
 require('../dbConnect');
 
 var UserSchema = new Schema({
-    username: String,
+    userId: String,
+    fullName: String,
     password: String,
     role: String
 });
