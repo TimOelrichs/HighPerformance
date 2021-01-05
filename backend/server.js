@@ -43,26 +43,7 @@ app.listen(PORT, () => {
 
 //login noch aus zu lagern
 const session = require('express-session');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-        if(username === "admin" && password === "admin"){
-            return done(null, username);
-        } else {
-            return done("unauthorized access", false);
-        }
-    }
-));
-
-passport.serializeUser(function(user, done) {
-    if(user) done(null, user);
-});
-
-passport.deserializeUser(function(id, done) {
-    done(null, id);
-});
+const passport = require('./middleware/auth.middleware')
 
 app.use(session({ secret: 'anything', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -71,7 +52,7 @@ app.use(bodyParser.json());
 
 const auth = () => {
     return (req, res, next) => {
-        console.log("AAAAAPPPPPPPPIIIIIIIIIIIIIII")
+        //console.log("AAAAAPPPPPPPPIIIIIIIIIIIIIII")
         passport.authenticate('local', (error, user, info) => {
             if(error) res.status(400).json({"statusCode" : 200 ,"message" : error});
             req.login(user, function(error) {

@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
 
+  private url = 'http://localhost:8080'
+
 
   constructor(private http: HttpClient) { }
 
@@ -23,12 +25,12 @@ export class AuthService {
   }
 
   public validate(email, password) {
-    return this.http.post('/api/authenticate', {'username' : email, 'password' : password}).toPromise();
+    return this.http.post(this.url + "/authenticate", {'username' : email, 'password' : password}).toPromise();
   }
 
   public logOut() {
     localStorage.removeItem('userInfo');
-    return this.http.post('/api/logout', {}).toPromise();
+    return this.http.post(this.url + '/logout', {}).toPromise();
   }
 
 }
