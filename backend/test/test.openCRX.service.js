@@ -1,4 +1,4 @@
-const { openCRXService} = require("../services/openCRX.service")
+/*const { openCRXService} = require("../services/openCRX.service")
 
 let soId = "3E8SW73JWB08B3YYXPE68DGJ5"
 
@@ -8,3 +8,5 @@ let soId = "3E8SW73JWB08B3YYXPE68DGJ5"
 
 openCRXService.getAllSalesOrdersAsEvaluationRecord()
     .then(res => console.log(res))
+
+*/

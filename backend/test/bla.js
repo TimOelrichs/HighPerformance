@@ -1,4 +1,4 @@
-let t = {
+/*let t = {
     "peter2018": {
             year: 1,
             salesman: "d",
@@ -16,4 +16,5 @@ let t = {
 
 
 let o = Object.keys(t).map(key => t[key])
-console.log(o)
+
+*/
