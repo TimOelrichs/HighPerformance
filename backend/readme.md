@@ -6,3 +6,6 @@ npm install
 npm i -g nodemon
 mongod
 npm run start
+
+For Testing
+npm run test
