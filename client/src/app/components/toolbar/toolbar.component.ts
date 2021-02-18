@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router} from '@angular/router';
 
 @Component({
@@ -20,6 +20,10 @@ export class ToolbarComponent implements OnInit {
 
   logOut() {
     this.authService.logOut().then(() => this.route.navigate(['/login']));
+  }
+
+  getUserName() {
+    return this.authService.getUserName();
   }
 
 }

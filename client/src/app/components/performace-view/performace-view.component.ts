@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EvaluationRecordService } from '../../services/evaluation-record.service';
 import { SalesmanService } from '../../services/salesman.service';
+import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Role } from '../../models/role';
 
 @Component({
   selector: 'app-performace-view',
@@ -21,6 +23,7 @@ export class PerformaceViewComponent implements OnInit {
   constructor(
     private erService: EvaluationRecordService,
     private salesmanService: SalesmanService,
+    private authService : AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -70,6 +73,10 @@ export class PerformaceViewComponent implements OnInit {
 
   sortEvaluationRecords() {
     this.er.sort((a, b) => Number(b.year) - Number(a.year));
+  }
+
+  canEdit(): Boolean {
+    return this.authService.getUserRole() !== Role.User;
   }
 
 }

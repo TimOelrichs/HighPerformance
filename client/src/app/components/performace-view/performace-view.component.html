@@ -1,6 +1,5 @@
 <div class="flex-row">
-  <button mat-button [routerLink]="''"><mat-icon aria-hidden="false" aria-label="Example home icon">arrow_back</mat-icon></button>
-
+  <button *ngIf="canEdit()" mat-button [routerLink]="''"><mat-icon aria-hidden="false" aria-label="Example home icon">arrow_back</mat-icon></button>
 <div *ngIf="!this.loadingSaleman">
 <mat-card>
   <img class="avatar" src="{{salesman.imgUrl}}">
@@ -23,7 +22,7 @@
   </div>
 </div>
 
-<app-dialog-add-record (dialogResult)="addEvaluationRecord($event)" id="addBtn"></app-dialog-add-record>
+<app-dialog-add-record *ngIf="canEdit()" (dialogResult)="addEvaluationRecord($event)" id="addBtn"></app-dialog-add-record>
 <!--
   <button id="addBtn" mat-fab  aria-label="Example icon button with a bookmark icon">
     <mat-icon>addchart</mat-icon>

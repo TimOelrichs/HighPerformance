@@ -2,3 +2,7 @@
   display: flex;
   justify-content: space-between;
 }
+
+#username {
+  font-size: 14px;
+}

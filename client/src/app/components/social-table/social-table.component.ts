@@ -26,7 +26,6 @@ export class SocialTableComponent implements OnInit {
   getAverage(prop) {
     let sum = this.socialPerformances.map(t => t[prop]).reduce((acc, value) => acc + Number(value), 0)
     let average = sum / this.socialPerformances.length;
-    console.log(prop, sum)
     return average.toFixed(1);
   }
 

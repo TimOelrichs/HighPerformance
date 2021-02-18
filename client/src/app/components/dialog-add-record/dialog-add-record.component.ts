@@ -21,7 +21,6 @@ export class DialogAddRecordComponent {
 
       dialogRef.afterClosed().subscribe(result => {
         //this.ratings = result;
-        console.log(result);
        this.dialogResult.emit(result);
       });
     }
@@ -44,7 +43,6 @@ export class DialogAddRecordContent {
     }
 
   save(): void {
-    console.log(this.year);
     this.dialogRef.close(this.year);
   }
 

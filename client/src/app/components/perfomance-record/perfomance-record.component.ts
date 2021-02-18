@@ -4,6 +4,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Record, Sale, Sales, SocialRating} from '../../models/model'
 import { EvaluationRecordService } from '../../services/evaluation-record.service';
 import { SalesService } from '../../services/sales.service';
+import { AuthService } from '../../services/auth.service';
+import { Role } from '../../models/role';
 
 @Component({
   selector: 'app-perfomance-record',
@@ -17,11 +19,16 @@ export class PerfomanceRecordComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     private erService: EvaluationRecordService,
+    private authService : AuthService,
     private salesService: SalesService) { }
 
   ngOnInit(): void {
     if (this.record.sales) this.calcTotalSaleBonus();
     if (this.record.socialPerformances) this.calcTotalSocialBonus(null);
+  }
+
+  canEdit(): Boolean {
+    return this.authService.getUserRole() !== Role.User;
   }
 
   openSnackBar(message: string, action: string) {
@@ -70,7 +77,7 @@ export class PerfomanceRecordComponent implements OnInit {
   }
 
   isEditable() {
-    return !this.record.status.startsWith('published');
+    return !this.record.status.startsWith('published') && this.canEdit();
   }
 
   publishToOrangeHRM() {
@@ -93,19 +100,16 @@ export class PerfomanceRecordComponent implements OnInit {
     if (this.record.sales["HooverClean"]) {
       for (let sale of this.record.sales["HooverClean"]) {
         sale['bonus'] = this.calcSaleBonus("HooverClean", sale);
-        console.log(sale);
         sumHooverClean += sale.bonus;
       }
     }
     if (this.record.sales["HooverGo"]) {
       for (let sale of this.record.sales["HooverGo"]) {
         sale.bonus = this.calcSaleBonus("HooverGo", sale);
-        console.log(sale);
         sumHooverGo += sale.bonus;
       }
     }
     this.record.totalBonusA = sumHooverClean + sumHooverGo;
-    console.log(this.record.totalBonusA);
 
   }
 
@@ -137,7 +141,6 @@ export class PerfomanceRecordComponent implements OnInit {
     this.record.status = "edited: " + new Date().toUTCString();
     this.record.socialPerformances = this.calcTotalSocialBonus(ratings);
     this.record.totalBonusB = this.record.socialPerformances.map(r => r.bonus).reduce((acc, value) => acc + value, 0);
-    console.log(this.record.socialPerformances);
   }
 
   calcTotalSocialBonus(data) {

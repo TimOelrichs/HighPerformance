@@ -18,6 +18,7 @@ h1 {
 .flex-row {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 #addBtn {

@@ -26,7 +26,7 @@ import { MatCardModule} from '@angular/material/card';
 import { MatToolbarModule} from '@angular/material/toolbar';
 import { RootComponent } from './components/root/root.component';
 
-import { AuthGuardService } from './auth-guard.service';
+import { AuthGuardService } from './guards/auth-guard.service';
 
 @NgModule({
   declarations: [
