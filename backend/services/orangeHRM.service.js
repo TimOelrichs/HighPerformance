@@ -31,17 +31,22 @@ async function getOrangeHRMToken() {
     accessToken = res.data['access_token'];
     config.headers.Authorization = `Bearer ${accessToken}`;
     console.log(`[GET]: Token ${accessToken}`);
-    //console.log(config)
 }
 
 
 async function getAllEmployees() {
-    console.log(`[GET] OrangeHRM All Employees:`)
-    let res = await axios.get(`${baseUrl}/api/v1/employee/search`, config);
-    //console.log(res.data);
-    return res.data;
+    console.log(`[GET] OrangeHRM All Employees:`) 
+    try {
+        let res = await axios.get(`${baseUrl}/api/v1/employee/search`, config);
+        return res.data.data;
+    } catch (error) {
+        console.error(error)
+        return error;
+    }
+
 }
 
+/*
 async function getEmployeeById(id) {
     console.log(`[GET] Employee by Id: ${id}`)
     let res = await axios.get(`${baseUrl}/api/v1/employee/${id}`, config);
@@ -49,10 +54,24 @@ async function getEmployeeById(id) {
     return res.data;
 }
 
+*/
+async function getEmployeeById(id) {
+    console.log(`[GET] Employee by Id: ${id}`)
+    try {
+        let emps = await getAllEmployees();
+        return emps.find( emp => emp.code == id) 
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+     
+}
+
 
 async function getEmployeeBonusSalaryById(id) {
     console.log(`[GET] Employee bonussalary by Id: ${id}`)
-    let res = await axios.get(`${baseUrl}/api/v1/employee/${id}/bonussalary`, config);
+    let HRMid = await getOrangeHRMId(id);
+    let res = await axios.get(`${baseUrl}/api/v1/employee/${HRMid}/bonussalary`, config);
     //console.log(res.data);
     return res.data;
 }
@@ -60,7 +79,12 @@ async function getEmployeeBonusSalaryById(id) {
 async function postEmployeeBonusSalary(id, body) {
     let data = qs.stringify(body)
     console.log(`[Post] Employee bonussalary by Id: ${id}`)
-    let res = await axios.post(`${baseUrl}/api/v1/employee/${id}/bonussalary`, data, config);
+    let HRMid = await getOrangeHRMId(id);
+    try {    
+        let res = await axios.post(`${baseUrl}/api/v1/employee/${HRMid}/bonussalary`, data, config);
+    } catch (error) {
+        console.error(error)
+    }
     console.log(res.data);
     return res.data;
 }
@@ -78,16 +102,10 @@ async function getEmployeeContactDetails(id) {
     return res.data;
 }
 
-async function getEmployeeImage(id) {
-    console.log(`[GET] Employee Img by Id: ${id}`)
-    let res = await axios.get(`https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/pim/viewPhoto/empNumber/${id}`, config)
-    console.log(res);
-    return res.data;
+async function getOrangeHRMId(id) {
+    return (await getEmployeeById(id)).employeeId;
 }
 
-
-
-//getOrangeHRMToken().then(()=> getEmployeeImage(8)).then(res => console.log(res))
 
 exports.orangeHRMService = {
     getOrangeHRMToken,
@@ -97,9 +115,15 @@ exports.orangeHRMService = {
     postEmployeeBonusSalary,
     getEmployeeBonusSalaryById,
     getEmployeeById,
+    getOrangeHRMId,
     config,
 
 }
+
+/*
+getOrangeHRMToken()
+    .then(() => getOrangeHRMId(90124))
+    .then((id) => console.log(id))
 
 
 /*
@@ -112,14 +136,8 @@ getOrangeHRMToken()
     .catch(() => console.log("OhOh!"));
 
 
-/*
-getOrangeHRMToken()
-    .then(() => getAllEmployees())
-    .then(res => res.data.filter((employee => employee.unit === "Sales")))
-    .then(res => console.log(res))
-    .catch((error) => console.log(error) )
 
-/*
+
 getOrangeHRMToken()
     .then(() => getAllEmployees())  
     .then(() => getEmployeeById(id))

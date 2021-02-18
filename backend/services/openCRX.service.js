@@ -27,6 +27,11 @@ async function getAccountById(id) {
     return res.data;
 }
 
+async function AccountIdToEmployeeId(id) {
+    let res = await getAccountById(id)
+    return res.governmentId;
+}
+
 async function getAllSalesOrder() {
     console.log(`[GET] ...openCRX all SalesOrder`);
     let res = await axios.get(`${baseUrl}/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder`, config);
@@ -55,8 +60,18 @@ async function getAllSalesOrdersAsEvaluationRecord( params ) {
         .then(orders => orders.filter(order => order.isGift === false))
         .then(orders => orders.filter(order => order.totalBaseAmount != 0))
         //optional filters for Salesman and year
-        .then(orders => { return params.id ? orders.filter(order => order.salesRep['@href'].split("account/")[1] == params.id): orders})
-        .then(orders => { return params.year ? orders.filter(order => order.activeOn.split("-")[0].trim() == params.year): orders})
+        .then(orders => {
+            if (params) {
+                return params.id ?
+                    orders.filter(order => order.salesRep['@href'].split("account/")[1] == params.id)
+                    : orders;
+            }
+            return orders;
+        })
+        .then(orders => {
+            if(params) return params.year ? orders.filter(order => order.activeOn.split("-")[0].trim() == params.year) : orders
+            return orders;
+        })
         .then(async orders => {
          
             //Promises for loading data and Schema-transfrom preparation
@@ -80,7 +95,7 @@ async function getAllSalesOrdersAsEvaluationRecord( params ) {
                     years.push(order.activeOn.split("-")[0]);
 
                     //get parallel async Salesman from MongoDB
-                    salesmenPromises.push(model.findOne({ openCRXId: salesmanId }))
+                    salesmenPromises.push(AccountIdToEmployeeId(salesmanId))
                     //get parallel async Customer Details for Name and Rating 
                     customerPromises.push(getAccountById(customerId));
                     //get parallel SalesOrderPostions for sold products names and item quantity
@@ -98,20 +113,21 @@ async function getAllSalesOrdersAsEvaluationRecord( params ) {
                         for (let index = 0; index < numberOrders; index++) {
                             //aggregate all SaleOrders to one EvaluationRecord per year and Salesman 
                             let year = data[0][index];
-                            let smId = data[1][index].openCRXId;
+                            let smId = data[1][index];
 
                             evaluationRecordsObj[year + smId] = evaluationRecordsObj[year + smId] || {
                                 year: year,
-                                salesman: data[1][index],
-                                sales: {},
+                                employeeId: smId,
+                                sales: [],
                                 status: "imported " + new Date().toUTCString()
                             };
                             data[3][index].map(position => ({
                                 productName: adapter.transformProductIdToName(position.product['@href'].split("product/")[1]),
                                 items: position.quantity
                             })).forEach(pos => {
-                                evaluationRecordsObj[year + smId].sales[pos.productName] = evaluationRecordsObj[year + smId].sales[pos.productName] || [];
-                                evaluationRecordsObj[year + smId].sales[pos.productName].push({
+                                //evaluationRecordsObj[year + smId].sales[pos.productName] = evaluationRecordsObj[year + smId].sales[pos.productName] || [];
+                                     evaluationRecordsObj[year + smId].sales.push({
+                                    productName: pos.productName,
                                     clientName: data[2][index].fullName,
                                     clientRating: adapter.transformRating(data[2][index].accountRating),
                                     items: pos.items
@@ -129,6 +145,14 @@ async function getAllSalesOrdersAsEvaluationRecord( params ) {
         .catch((err) => console.log(err))
 }
 
+/*
+getAllSalesOrdersAsEvaluationRecord().then(res => console.log(res[0].sales))
+
+/*
+getAllSalesOrder().then(res => console.log(res.objects[1].salesRep));
+
+AccountidToEmployeeId("L0NTAXG7TQTPM0EBHQA5MAZ7J").then(res => console.log(res))
+*/
 exports.openCRXService = {
     getAllAcounts,
     getAccountById,

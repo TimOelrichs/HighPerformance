@@ -26,6 +26,8 @@ async function importSalesOrdersToMongoDB() {
 
 module.exports = importSalesOrdersToMongoDB;
 
+//importSalesOrdersToMongoDB().then(res => console.log(res))
+
     /*
 //deprecated see importSalesOrdersToDB
 async function importSalesOrderImport(...years) {

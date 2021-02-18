@@ -13,8 +13,7 @@ async function importAll() {
     if (!salesmen.length) {
         console.log("[Info] First run, make sure to be connected to H-BRS VPN to import Data")
         salesmen = await importSalesmen()
-        let ids = salesmen.map(s => s.orangeHRMId) 
-        ids = await downloadImg(ids);
+        await downloadImg();
     } 
       
     let er = await evaluationRecord.find({})

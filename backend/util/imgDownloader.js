@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const { model } = require('../models/Salesman');
+let { orangeHRMService } = require("../services/orangeHRM.service");
 
 const dir = "./public/img";
 
@@ -16,8 +17,11 @@ const CTA_SELECTOR = '#btnLogin'
 async function downloadImg(ids) {
 
     ids = ids || await model.find({})
-                        .then(res => res.map(s => s.orangeHRMId));
-
+        .then(res => 
+            orangeHRMService.getOrangeHRMToken()
+                .then(() => res.map(s => orangeHRMService.getOrangeHRMId(s.employeeId))))
+        .then(res => Promise.all(res))
+    
     if (!ids) return null;
     console.log("[Info] ..scraping Employee Photos from OrangeHRM")
     const browser = await puppeteer.launch({
@@ -36,18 +40,18 @@ async function downloadImg(ids) {
     ]);
 
     
-    if (!fs.existsSync("./public")){
-        fs.mkdirSync("./public");  
+    if (!fs.existsSync("../public")){
+        fs.mkdirSync("../public");  
         console.log("created Public Folder")
     }
-    if (!fs.existsSync("./public/img")) {
-        fs.mkdirSync("./public/img");
+    if (!fs.existsSync("../public/img")) {
+        fs.mkdirSync("../public/img");
     }
 
     for (id of ids) {
         let viewSource = await page.goto(`https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/pim/viewPhoto/empNumber/${id}`);
              
-        fs.writeFileSync(`./public/img/${id}.png`, await viewSource.buffer())
+        fs.writeFileSync(`../public/img/${id}.png`, await viewSource.buffer())
         console.log(`Employee Photo ${id} was saved to public!`);
     }
 
@@ -55,6 +59,8 @@ async function downloadImg(ids) {
     return ids;
 }
 
-// run([2,8,9])
 
 module.exports = downloadImg;
+
+
+//downloadImg();

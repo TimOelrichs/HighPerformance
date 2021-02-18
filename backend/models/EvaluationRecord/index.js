@@ -1,12 +1,12 @@
 require('../dbConnect');
 var SocialPerformanceSchema = require("./SocialPerfomance")
-var { SalesmanSchema } = require('../Salesman')
-var OrderEvaluationSchema = require("./OrderEvaluation");
+var productSalesSchema = require('./ProductSales')
+
 
 var EvaluationRecordSchema = new Schema({
-    salesman: SalesmanSchema,
+    employeeId: Number,
     year: Number,
-    sales: OrderEvaluationSchema,
+    sales: [productSalesSchema],
     totalBonusA: Number,
     socialPerformances: [SocialPerformanceSchema],
     totalBonusB: Number,
