@@ -63,8 +63,7 @@ const auth = () => {
     }
 }
 
-//app.post('/authenticate', auth() , (req, res) => {
-app.post('/authenticate', (req, res) => {
+app.post('/authenticate', auth() , (req, res) => {
     console.log("log in")
     res.status(200).json({"statusCode" : 200 ,"user" : req.user});
 });
