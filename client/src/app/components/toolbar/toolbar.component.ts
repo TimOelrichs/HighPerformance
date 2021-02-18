@@ -26,4 +26,8 @@ export class ToolbarComponent implements OnInit {
     return this.authService.getUserName();
   }
 
+  getUserRole() {
+    return this.authService.getUserRole();
+  }
+
 }

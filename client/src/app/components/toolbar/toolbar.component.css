@@ -11,3 +11,27 @@ a {
 #username {
   font-size: 14px;
 }
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  width: 150px;
+  height: 70px;
+}
+
+.userInfo h4 {
+  font-weight: bold;
+  color: #333;
+}
+
+.w-120 {
+  width: 120px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
