@@ -14,28 +14,24 @@ export class AuthGuardService implements CanActivate {
 
     if (this.authService.isAuthenticated()) {
       const currentUser = this.authService.getUser();
-      console.log(currentUser)
+      console.log("router", window.location.href, currentUser.userId, route.params.id, route.params.id ==currentUser.userId )
       if (currentUser) {
         // check if route is restricted by role
         if (route.data.roles && route.data.roles.indexOf(currentUser.role) === -1) {
           // role not authorised so redirect to personal Records
-          this.router.navigate(['/performance/2']);
+          this.router.navigateByUrl(`/performance/${currentUser.userId}`);
           //this.router.navigate(['performancerecord/' + currentUser.userId]);
           return false;
         }
         if (currentUser.role === Role.User
-          && this.router.url !== ""
-            && this.router.url.split("/")[0] === "performace"
          ) {
-          if (route.params.id !== currentUser.userID) {
-            console.log()
-            this.router.navigate(['/performance/2']);
+          if (route.params.id && route.params.id != currentUser.userId) {
+            this.router.navigateByUrl(`/performance/${currentUser.userId}`);
             return false;
           }else{
             return true;
           }
         }
-
         // authorised so return true
         return true;
       }

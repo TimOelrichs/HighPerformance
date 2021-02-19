@@ -38,6 +38,10 @@ export class AuthService {
     return name;
   }
 
+  public getUserID() {
+    return JSON.parse(localStorage.getItem('userInfo')).user.userID;
+  }
+
   public getUser() {
     return JSON.parse(localStorage.getItem('userInfo')).user;
   }

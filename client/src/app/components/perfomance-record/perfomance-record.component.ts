@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
-import {Record, Sale, Sales, SocialRating} from '../../models/model'
+import {Record, Sale, SocialRating} from '../../models/model'
 import { EvaluationRecordService } from '../../services/evaluation-record.service';
 import { SalesService } from '../../services/sales.service';
 import { AuthService } from '../../services/auth.service';
@@ -95,28 +95,17 @@ export class PerfomanceRecordComponent implements OnInit {
 
   calcTotalSaleBonus() {
 
-    let sumHooverClean = 0;
-    let sumHooverGo = 0;
-    if (this.record.sales["HooverClean"]) {
-      for (let sale of this.record.sales["HooverClean"]) {
-        sale['bonus'] = this.calcSaleBonus("HooverClean", sale);
-        sumHooverClean += sale.bonus;
-      }
-    }
-    if (this.record.sales["HooverGo"]) {
-      for (let sale of this.record.sales["HooverGo"]) {
-        sale.bonus = this.calcSaleBonus("HooverGo", sale);
-        sumHooverGo += sale.bonus;
-      }
-    }
-    this.record.totalBonusA = sumHooverClean + sumHooverGo;
-
+    this.record.sales.forEach(sale =>
+      sale['bonus'] = this.calcSaleBonus(sale)
+    );
+    this.record.totalBonusA = this.record.sales.reduce((total, sale) => total + sale.bonus, 0);
+      console.log(this.record.totalBonusA)
   }
 
 
 
-  calcSaleBonus(product: String, sale: Sale): Number {
-    switch (product) {
+  calcSaleBonus(sale: Sale): Number {
+    switch (sale.productName) {
       case "HooverClean":
         switch (sale.clientRating) {
           case "execellent":
@@ -161,6 +150,10 @@ export class PerfomanceRecordComponent implements OnInit {
       if (record.targetValue-record.actualValue == 1) return 20;
       return 0;
     }
+  }
+
+  filterSales(productname) : Array<Sale> {
+    return this.record.sales.filter(sale => sale.productName == productname);
   }
 
 }

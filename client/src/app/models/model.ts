@@ -4,7 +4,7 @@ export interface Record {
   _id : String,
   year: Number | any,
   salesman: Salesman,
-  sales: Sales | any,
+  sales: Array<Sale>,
   status: String,
   totalBonusA: Number | any,
   socialPerformances: Array<any>,
@@ -14,14 +14,9 @@ export interface Record {
 }
 
 
-export interface Sales {
-  _id: String,
-  HooverClean?: Array<Sale>,
-  HooverGo?: Array<Sale>
-}
-
 export interface Sale{
   _id: String,
+  productName: String,
   clientName: String,
   clientRating: String,
   items: Number | any,

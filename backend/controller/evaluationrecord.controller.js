@@ -26,7 +26,7 @@ exports.findAll = (req, res) => {
 
 exports.findAllRecordbySalesmanId = (req, res) => {
     const id = req.params.id;
-    model.find({"salesman.orangeHRMId": id}).then(function (result) {
+    model.find({"employeeId": id}).then(function (result) {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't Find All`);

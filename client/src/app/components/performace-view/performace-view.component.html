@@ -14,12 +14,16 @@
   </mat-card-content>
 </mat-card>
 </div>
-  <div id="records">
+  <div id="records" *ngIf="this.er.length; else elseBlockHG" >
     <mat-accordion>
     <app-perfomance-record *ngFor="let r of this.er" [record]="r">
     </app-perfomance-record>
   </mat-accordion>
   </div>
+  <ng-template #elseBlockHG>
+    <p>No Records found! </p>
+  </ng-template>
+
 </div>
 
 <app-dialog-add-record *ngIf="canEdit()" (dialogResult)="addEvaluationRecord($event)" id="addBtn"></app-dialog-add-record>
