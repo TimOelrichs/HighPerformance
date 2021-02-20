@@ -39,15 +39,15 @@ export class AuthService {
   }
 
   public getUserID() {
-    return JSON.parse(localStorage.getItem('userInfo')).user.userID;
+    return JSON.parse(localStorage.getItem('userInfo'))?.user?.userID;
   }
 
   public getUser() {
-    return JSON.parse(localStorage.getItem('userInfo')).user;
+    return JSON.parse(localStorage.getItem('userInfo'))?.user;
   }
 
   public getUserRole() {
-    return JSON.parse(localStorage.getItem('userInfo')).user.role;
+    return JSON.parse(localStorage.getItem('userInfo'))?.user?.role;
   }
 
 }

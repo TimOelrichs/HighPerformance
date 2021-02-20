@@ -1,23 +1,22 @@
 <mat-toolbar class="flex-between">
   <a [routerLink]="['/']">Hoover High Perfomance</a>
   <span id="username" *ngIf="isLogedIn()">Welcome, {{this.getUserName()}}</span>
+
   <div class="w-120 flex" *ngIf="isLogedIn()">
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-      <mat-icon matBadge="7">notifications</mat-icon>
+      <mat-icon matBadge="{{getMessages()?.length}}" [matBadgeHidden]="!getMessages()?.length">notifications</mat-icon>
     </button>
-    <mat-menu #menu="matMenu">
-      <div mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Redial</span>
-      </div>
-      <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voice mail</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon>
-        <span>Disable alerts</span>
-      </button>
+    <mat-menu  #menu="matMenu" disabled="getMessages()?.length"  style="width: 300px">
+      <div *ngIf="this.getMessages()?.length; else elseNoMsg" >
+        <button (click)="this.markAsRead(msg)" mat-menu-item  *ngFor="let msg of this.getMessages()" [routerLink]="['/performance', msg.employeeId]">
+          <mat-icon>info</mat-icon>
+          <span>{{msg.employeeId}}: Record has been {{msg.status.split(":")[0]}}</span>
+          <p>  </p>
+        </button>
+     </div>
+     <ng-template #elseNoMsg>
+      <p>No Messages</p>
+     </ng-template>
     </mat-menu>
     <button mat-mini-fab mat-button [matMenuTriggerFor]="avatarMenu" aria-label="Example icon-button with a menu">
       {{(this.getUserName()).charAt(0)}}
@@ -34,7 +33,6 @@
         log out
        </button>
       </mat-menu>
-
-
 </div>
+
 </mat-toolbar>

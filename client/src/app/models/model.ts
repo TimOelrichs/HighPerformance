@@ -11,6 +11,10 @@ export interface Record {
   totalBonusB?: Number | any,
   totalBonus?: Number | any,
   remarks?: String,
+  userFeedback?: String,
+  readBy?: Array<any>,
+  historie?: Array<any>,
+
 }
 
 

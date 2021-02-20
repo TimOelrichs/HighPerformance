@@ -6,7 +6,7 @@ var ProductSalesSchema = new Schema({
     clientRating: String,
     items: Number,
     bonus: Number,
-    remarks: String
+    remarks: String,
 });
 
 module.exports = ProductSalesSchema;

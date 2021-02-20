@@ -10,6 +10,11 @@ app-perfomance-record {
   min-width: 600px;
 }
 
+mat-expansion-panel {
+  height: 50px;
+  min-width: 600px;
+}
+
 h1 {
   text-align: center;
   margin-top: 20px;
@@ -33,4 +38,14 @@ h1 {
   margin-right: 20px;
   max-width: 100px;
   border-radius: 25%;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
 }

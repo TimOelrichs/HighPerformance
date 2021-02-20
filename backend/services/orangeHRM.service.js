@@ -80,12 +80,7 @@ async function postEmployeeBonusSalary(id, body) {
     let data = qs.stringify(body)
     console.log(`[Post] Employee bonussalary by Id: ${id}`)
     let HRMid = await getOrangeHRMId(id);
-    try {    
-        let res = await axios.post(`${baseUrl}/api/v1/employee/${HRMid}/bonussalary`, data, config);
-    } catch (error) {
-        console.error(error)
-    }
-    console.log(res.data);
+    let res = await axios.post(`${baseUrl}/api/v1/employee/${HRMid}/bonussalary`, data, config);
     return res.data;
 }
 
@@ -120,22 +115,18 @@ exports.orangeHRMService = {
 
 }
 
-/*
-getOrangeHRMToken()
-    .then(() => getOrangeHRMId(90124))
-    .then((id) => console.log(id))
 
 
-/*
-let id = 2;
+let id = 90123;
 
 getOrangeHRMToken()
-    .then(() => postEmployeeBonusSalary(id, { year: "2015", value: "1500" }))
-    .then(() => getEmployeeBonusSalaryById(id))
-    .then(() => getEmployeeContactDetails(id))
+    .then(() => postEmployeeBonusSalary(id, { year: "2015", value: "555" }))
+  
+    //.then(() => getEmployeeBonusSalaryById(id))
+    //.then(() => getEmployeeContactDetails(id))
     .catch(() => console.log("OhOh!"));
 
-
+/*
 
 
 getOrangeHRMToken()

@@ -5,7 +5,9 @@ h3 {
 
 .headline {
   display: flex;
+  width: 100%;
   justify-content: space-between;
+
   margin: 0px 15px 0px 15px;
 }
 
@@ -30,9 +32,18 @@ app-sales-table {
   min-width: 65vw;
 }
 
-mat-expansion-panel-header {
-  display: flex;
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
   justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
 }
 
 .remarksform {
@@ -53,4 +64,11 @@ textarea {
 
 .actionsBox {
   margin-top: 15px;
+}
+
+.answerBox {
+  margin-top: 30px;
+}
+.answerBox * {
+  margin: 10px;
 }
