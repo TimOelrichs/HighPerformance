@@ -14,6 +14,11 @@ export class EvaluationRecordService {
     return this.http.get(this.erUrl+id)
   }
 
+  getAllEvaluationRecords() {
+    return this.http.get(this.erUrl);
+  }
+
+
   createEvaluationRecord(record) {
     return this.http.post(this.erUrl, record);
   }

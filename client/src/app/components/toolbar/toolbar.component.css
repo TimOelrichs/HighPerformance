@@ -1,4 +1,41 @@
+a {
+  text-decoration: none;
+  color: black;
+}
+
 .flex-between {
   display: flex;
   justify-content: space-between;
+}
+
+#username {
+  font-size: 14px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  width: 150px;
+  height: 70px;
+}
+
+.userInfo h4 {
+  font-weight: bold;
+  color: #333;
+}
+
+.w-120 {
+  width: 120px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+::ng-deep .msgmenu {
+  width: 400px;
 }

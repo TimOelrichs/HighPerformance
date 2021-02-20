@@ -1,0 +1,6 @@
+- refactor salesman db to code ID
+- refactor salesdb to normal array
+
+- add kontoverwalten change password
+- fix user route to see personal released performance
+- add two 

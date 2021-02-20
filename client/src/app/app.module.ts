@@ -26,7 +26,8 @@ import { MatCardModule} from '@angular/material/card';
 import { MatToolbarModule} from '@angular/material/toolbar';
 import { RootComponent } from './components/root/root.component';
 
-import { AuthGuardService } from './auth-guard.service';
+import { AuthGuardService } from './guards/auth-guard.service';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { AuthGuardService } from './auth-guard.service';
     DialogAddRecordContent,
     LoginComponent,
     RootComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

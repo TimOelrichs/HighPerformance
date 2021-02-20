@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EvaluationRecordService } from '../../services/evaluation-record.service';
 import { SalesmanService } from '../../services/salesman.service';
+import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Role } from '../../models/role';
 
 @Component({
   selector: 'app-performace-view',
@@ -16,18 +18,19 @@ export class PerformaceViewComponent implements OnInit {
   public er;
 
   public loadingSaleman = true;
-  loadingER = true;
+  public loadingER = true;
 
   constructor(
     private erService: EvaluationRecordService,
     private salesmanService: SalesmanService,
+    private authService : AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit(): void {
     //get router params
+    this.er = [];
     this.route.params.subscribe(params => {
-      console.log(params)
       this.smId = params['id'];
     })
 
@@ -37,7 +40,7 @@ export class PerformaceViewComponent implements OnInit {
 
   getSalesman(): void {
     this.salesmanService.getSalesmenById(this.smId)
-      .subscribe(data => { this.salesman = data; console.log(data) },
+      .subscribe(data => { this.salesman = data;},
         (err) => console.log(err),
         () => { this.loadingSaleman = false; console.log("Load Salesman Done") })
 
@@ -46,8 +49,9 @@ export class PerformaceViewComponent implements OnInit {
   getEvaluationRecords(): void {
     this.erService.getEvaluationRecords(this.smId)
       .subscribe(data => {
-        this.er = data;
+        this.er = data || [];
         this.sortEvaluationRecords();
+
       },
         (err) => console.log(err),
         () => { this.loadingER = false; console.log("EvaluationRecord loading Done") })
@@ -58,12 +62,14 @@ export class PerformaceViewComponent implements OnInit {
     if (!year) return;
     let record = {
       year: year,
-      salesman: this.salesman,
+      employeeId: this.salesman.employeeId,
       status: "created on" + new Date().toUTCString(),
-      socialPerformances: []
+      sales: [],
+      socialPerformances: [],
+
 
     }
-    console.log(record)
+    //console.log(record)
     this.er.push(record);
     this.sortEvaluationRecords();
   }
@@ -71,5 +77,11 @@ export class PerformaceViewComponent implements OnInit {
   sortEvaluationRecords() {
     this.er.sort((a, b) => Number(b.year) - Number(a.year));
   }
+
+  canEdit(): Boolean {
+    let user = this.authService.getUser();
+    return user ? this.authService.getUserRole() !== Role.User : false;
+  }
+
 
 }

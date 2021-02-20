@@ -1,7 +1,38 @@
 <mat-toolbar class="flex-between">
-  <span>Hoover High Perfomance</span>
-  <span class="example-spacer"></span>
-  <button (click)="logOut()"  *ngIf="isLogedIn()" mat-button mat-primary aria-label="edit">
-   log out
-  </button>
+  <a [routerLink]="['/']">Hoover High Perfomance</a>
+  <span id="username" *ngIf="isLogedIn()">Welcome, {{this.getUserName()}}</span>
+
+  <div class="w-120 flex" *ngIf="isLogedIn()">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon matBadge="{{getMessages()?.length}}" [matBadgeHidden]="!getMessages()?.length">notifications</mat-icon>
+    </button>
+    <mat-menu  #menu="matMenu" disabled="getMessages()?.length"  style="width: 300px">
+      <div *ngIf="this.getMessages()?.length; else elseNoMsg" >
+        <button (click)="this.markAsRead(msg)" mat-menu-item  *ngFor="let msg of this.getMessages()" [routerLink]="['/performance', msg.employeeId]">
+          <mat-icon>info</mat-icon>
+          <span>{{msg.employeeId}}: Record has been {{msg.status.split(":")[0]}}</span>
+          <p>  </p>
+        </button>
+     </div>
+     <ng-template #elseNoMsg>
+      <p>No Messages</p>
+     </ng-template>
+    </mat-menu>
+    <button mat-mini-fab mat-button [matMenuTriggerFor]="avatarMenu" aria-label="Example icon-button with a menu">
+      {{(this.getUserName()).charAt(0)}}
+    </button>
+    <mat-menu #avatarMenu="matMenu">
+      <div class="userInfo">
+        <h4>{{this.getUserName()}}</h4>
+        <p>{{(this.getUserRole()).split("_")[1]}}</p>
+      </div>
+      <button  mat-menu-item aria-label="edit">
+        Konto verwalten
+       </button>
+      <button (click)="logOut()" mat-menu-item aria-label="edit">
+        log out
+       </button>
+      </mat-menu>
+</div>
+
 </mat-toolbar>

@@ -1,6 +1,6 @@
-const { model } = require('../models/Salesman')
+const { model } = require('../models/User')
 
-//Create and Save a new Salesman
+//Create and Save a new User
 exports.create = (req, res) => {
     console.log("[Post]");
     console.log(req.body);
@@ -15,48 +15,48 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    console.log("[Log] GET Salesman");
+    console.log("[Log] GET User");
     model.find({}).then(function (result) {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't Find All`);
-        res.status(404).send("All Salesman not found!");
+        res.status(404).send("All User not found!");
     });
 };
 
 exports.findOne = (req, res) => {
-    const sid = req.params.sid;
-    console.log(`[GET] SalesmanById ${sid}`);
+    const id = req.params.id;
+    console.log(`[GET] UserById ${id}`);
 
-    model.findOne({ employeeId: sid }).then(function (result) {
+    model.findOne({ orangeHRMId: id }).then(function (result) {
         console.log(result)
         res.status(201).send(result);
     }).catch(() => {
-        console.log(`Ohh, couldn't FIND id: ${sid}`);
-        res.status(404).send("Salesman not found!");
+        console.log(`Ohh, couldn't FIND id: ${id}`);
+        res.status(404).send("User not found!");
     });
 };
 
 exports.update = (req, res) => {
     const sid = req.params.sid;
-    console.log(`[PUT] SalesmanById ${sid}`);
-    model.updateOne({ employeeId: sid }, req.body).then((result) => {
+    console.log(`[PUT] UserById ${sid}`);
+    model.updateOne({ orangeHRMId: sid }, req.body).then((result) => {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't UPDATE id: ${sid}`);
-        res.status(404).send("Salesman not found!");
+        res.status(404).send("User not found!");
     });
     
 };
 
 exports.delete = (req, res) => {
     const sid = req.params.sid;
-    console.log(`[DELETE] SalesmanById ${sid}`);
-    model.deleteOne({ employeeId: sid }).then(function (result) {
+    console.log(`[DELETE] UserById ${sid}`);
+    model.deleteOne({ orangeHRMId: sid }).then(function (result) {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't DELETE id: ${sid}`);
-        res.status(404).send("Salesman not found!");
+        res.status(404).send("User not found!");
     });
 };
 

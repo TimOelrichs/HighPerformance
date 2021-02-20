@@ -9,7 +9,6 @@ export class AuthService {
 
   private url = 'http://localhost:8080'
 
-
   constructor(private http: HttpClient) { }
 
   public isAuthenticated(): Boolean {
@@ -31,6 +30,24 @@ export class AuthService {
   public logOut() {
     localStorage.removeItem('userInfo');
     return this.http.post(this.url + '/logout', {}).toPromise();
+  }
+
+  public getUserName() {
+    let user = JSON.parse(localStorage.getItem('userInfo'));
+    let name = user.user.fullName;
+    return name;
+  }
+
+  public getUserID() {
+    return JSON.parse(localStorage.getItem('userInfo'))?.user?.userID;
+  }
+
+  public getUser() {
+    return JSON.parse(localStorage.getItem('userInfo'))?.user;
+  }
+
+  public getUserRole() {
+    return JSON.parse(localStorage.getItem('userInfo'))?.user?.role;
   }
 
 }

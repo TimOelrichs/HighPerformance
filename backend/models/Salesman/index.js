@@ -6,8 +6,6 @@ var SalesmanSchema = new Schema({
     middleName: String,
     lastName: String,
     employeeId: Number,
-    orangeHRMId: Number,
-    openCRXId: String,
     department: String,
     jobTitle: String,
     imgUrl: String

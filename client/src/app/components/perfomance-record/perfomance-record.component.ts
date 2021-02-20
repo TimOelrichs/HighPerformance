@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
-import {Record, Sale, Sales, SocialRating} from '../../models/model'
+import {Record, Sale, SocialRating} from '../../models/model'
 import { EvaluationRecordService } from '../../services/evaluation-record.service';
 import { SalesService } from '../../services/sales.service';
+import { AuthService } from '../../services/auth.service';
+import { Role } from '../../models/role';
 
 @Component({
   selector: 'app-perfomance-record',
@@ -17,12 +19,23 @@ export class PerfomanceRecordComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     private erService: EvaluationRecordService,
+    private authService : AuthService,
     private salesService: SalesService) { }
 
   ngOnInit(): void {
     if (this.record.sales) this.calcTotalSaleBonus();
     if (this.record.socialPerformances) this.calcTotalSocialBonus(null);
+    this.record.userFeedback = this.record.userFeedback || "";
   }
+
+  canEdit(): Boolean {
+    return this.authService.getUserRole() !== Role.User;
+  }
+
+  canApprove(): Boolean{
+    return this.authService.getUserRole() == Role.CEO;
+  }
+
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -50,8 +63,10 @@ export class PerfomanceRecordComponent implements OnInit {
   }
 
   saveRecordToDB() {
-    console.log(this.record)
-    this.record.totalBonus = this.record.totalBonusA || 0 + this.record.totalBonusB || 0;
+    //console.log(this.record)
+    let id = this.authService.getUserID();
+    this.record.readBy = [id] 
+    this.calcTotalBonus();
     if (this.record._id) {
       this.erService.updateEvaluationRecord(this.record._id, this.record)
         .subscribe(data => {
@@ -69,50 +84,60 @@ export class PerfomanceRecordComponent implements OnInit {
     }
   }
 
-  isEditable() {
-    return !this.record.status.startsWith('published');
+  isEditable() : Boolean {
+    return !this.record.status.startsWith('confirmed') && this.canEdit();
   }
 
+  canConfirm() : Boolean {
+    return this.record.status.startsWith('approved') && this.authService.getUserRole() == Role.User;
+  }
+
+  confirm() {
+    this.record.status = "confirmed: " + this.authService.getUserName() + ", " + new Date().toUTCString();
+    this.saveRecordToDB();
+  }
+  decline() {
+    this.record.status = "declined: " + this.authService.getUserName() + ", " + new Date().toUTCString();
+    this.saveRecordToDB();
+  }
+
+   submitOrApprove() {
+    if (this.canApprove()) this.publishToOrangeHRM()
+    else {
+      this.record.status = "submitted: " + this.authService.getUserName() + ", " + new Date().toUTCString();
+      this.saveRecordToDB();
+    }
+  }
+
+
   publishToOrangeHRM() {
-    console.log(this.record)
-    this.record.status = "published: " + new Date().toUTCString();
-    this.record.totalBonus = this.record.totalBonusA || 0 + this.record.totalBonusB || 0;
+    //console.log(this.record)
+    this.record.status = "approved: "+ this.authService.getUserName() + ", " + new Date().toUTCString();
+    this.calcTotalBonus();
     this.erService.publishEvaluationRecord(this.record._id, this.record)
     .subscribe(data => {
       console.log(data)
     },
       (err) => this.openSnackBar("Error", err),
-      () => { this.openSnackBar("published BonusSalay to OrangeHRM", "Ok") })
+      () => { this.openSnackBar("published BonusSalary to OrangeHRM", "Ok") })
   }
 
+  calcTotalBonus() {
+    this.record.totalBonus = (this.record.totalBonusA || 0) + (this.record.totalBonusB || 0);
+  }
 
   calcTotalSaleBonus() {
-
-    let sumHooverClean = 0;
-    let sumHooverGo = 0;
-    if (this.record.sales["HooverClean"]) {
-      for (let sale of this.record.sales["HooverClean"]) {
-        sale['bonus'] = this.calcSaleBonus("HooverClean", sale);
-        console.log(sale);
-        sumHooverClean += sale.bonus;
-      }
-    }
-    if (this.record.sales["HooverGo"]) {
-      for (let sale of this.record.sales["HooverGo"]) {
-        sale.bonus = this.calcSaleBonus("HooverGo", sale);
-        console.log(sale);
-        sumHooverGo += sale.bonus;
-      }
-    }
-    this.record.totalBonusA = sumHooverClean + sumHooverGo;
-    console.log(this.record.totalBonusA);
-
+    this.record.sales.forEach(sale =>
+      sale['bonus'] = this.calcSaleBonus(sale)
+    );
+    this.record.totalBonusA = this.record.sales.reduce((total, sale) => total + sale.bonus, 0);
+    this.calcTotalBonus();
   }
 
 
 
-  calcSaleBonus(product: String, sale: Sale): Number {
-    switch (product) {
+  calcSaleBonus(sale: Sale): Number {
+    switch (sale.productName) {
       case "HooverClean":
         switch (sale.clientRating) {
           case "execellent":
@@ -137,7 +162,7 @@ export class PerfomanceRecordComponent implements OnInit {
     this.record.status = "edited: " + new Date().toUTCString();
     this.record.socialPerformances = this.calcTotalSocialBonus(ratings);
     this.record.totalBonusB = this.record.socialPerformances.map(r => r.bonus).reduce((acc, value) => acc + value, 0);
-    console.log(this.record.socialPerformances);
+    this.calcTotalBonus();
   }
 
   calcTotalSocialBonus(data) {
@@ -158,6 +183,10 @@ export class PerfomanceRecordComponent implements OnInit {
       if (record.targetValue-record.actualValue == 1) return 20;
       return 0;
     }
+  }
+
+  filterSales(productname) : Array<Sale> {
+    return this.record.sales.filter(sale => sale.productName == productname);
   }
 
 }
