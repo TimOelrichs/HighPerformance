@@ -13,13 +13,9 @@ var EvaluationRecordSchema = new Schema({
     totalBonus: Number,
     remarks: String,
     status: String,
-<<<<<<< HEAD
-    releases: [String],
-=======
     userFeedback: String,
     historie: [String],
     readBy: [],
->>>>>>> feature_userDB
 });
 
 var EvaluationRecord = mongoose.model('EvaluationRecord', EvaluationRecordSchema);
