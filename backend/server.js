@@ -52,7 +52,6 @@ app.use(bodyParser.json());
 
 const auth = () => {
     return (req, res, next) => {
-        //console.log("AAAAAPPPPPPPPIIIIIIIIIIIIIII")
         passport.authenticate('local', (error, user, info) => {
             if(error) res.status(400).json({"statusCode" : 200 ,"message" : error});
             req.login(user, function(error) {

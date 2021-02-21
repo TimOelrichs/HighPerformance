@@ -63,7 +63,7 @@ export class PerformaceViewComponent implements OnInit {
     let record = {
       year: year,
       employeeId: this.salesman.employeeId,
-      status: "created on" + new Date().toUTCString(),
+      status: "created: " + new Date().toUTCString(),
       sales: [],
       socialPerformances: [],
 

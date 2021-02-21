@@ -117,6 +117,7 @@ exports.orangeHRMService = {
 
 
 
+/*
 let id = 90123;
 
 getOrangeHRMToken()

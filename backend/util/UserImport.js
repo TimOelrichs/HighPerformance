@@ -4,13 +4,13 @@ let { orangeHRMService } = require("../services/orangeHRM.service");
 const { model } = require('../models/User');
 
 async function importUsers() {
-    
+    console.log("[Info] Creating UserDb...")
     try {
         let employees = await orangeHRMService.getOrangeHRMToken()
             .then(() => orangeHRMService.getAllEmployees());
-        let salesmen = employees.data.filter((employee => employee.unit === "Sales"));
-        let ceo = employees.data.filter((employee => employee.jobTitle === "CEO"));
-        let hr = employees.data.filter((employee => employee.unit === "HR"))
+        let salesmen = employees.filter((employee => employee.unit === "Sales"));
+        let ceo = employees.filter((employee => employee.jobTitle === "CEO"));
+        let hr = employees.filter((employee => employee.unit === "HR"))
             
         salesmen = salesmen.map(emp => { emp["role"] = "ROLE_USER"; return emp;});
         ceo = ceo.map(emp => { emp["role"] = "ROLE_CEO"; return emp; } );
@@ -49,7 +49,7 @@ async function importUsers() {
 
 }
 
-importUsers().then(res => console.log(res));
+//importUsers().then(res => console.log(res));
 
 
 module.exports = importUsers;

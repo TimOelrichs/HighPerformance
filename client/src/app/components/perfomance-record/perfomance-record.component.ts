@@ -44,8 +44,9 @@ export class PerfomanceRecordComponent implements OnInit {
   }
 
   getSales() {
-    console.log(this.record.salesman.openCRXId)
-    let res = this.salesService.getAllSalesByYearAndID({ id: this.record.salesman.openCRXId, year: this.record.year })
+
+    let res = this.salesService.getAllSalesByYearAndID({ id: this.record.employeeId
+      , year: this.record.year })
       .subscribe(data => {
         console.log(data);
         if (Array.isArray(data)) {
@@ -65,7 +66,7 @@ export class PerfomanceRecordComponent implements OnInit {
   saveRecordToDB() {
     //console.log(this.record)
     let id = this.authService.getUserID();
-    this.record.readBy = [id] 
+    this.record.readBy = [id]
     this.calcTotalBonus();
     if (this.record._id) {
       this.erService.updateEvaluationRecord(this.record._id, this.record)

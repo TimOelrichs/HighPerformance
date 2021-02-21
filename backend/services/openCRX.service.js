@@ -14,6 +14,8 @@ const config = {
     auth: credentials,
 };
 
+const accountCache = {};
+const accountIDCache = {}
 
 async function getAllAcounts() {
     const contacts = await axios.get(`${baseUrl}/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account`, config);
@@ -22,14 +24,28 @@ async function getAllAcounts() {
 }
 
 async function getAccountById(id) {
-    console.log(`[GET] ...openCRX account by id: ${id}`);
-    let res = await axios.get(`${baseUrl}/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account/${id}`, config);
-    return res.data;
+    //console.log(`[GET] ...openCRX account by id: ${id}`);
+    accountCache[id] = accountCache[id] ? accountCache[id] : await axios.get(`${baseUrl}/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account/${id}`, config);
+    //let res = await axios.get(`${baseUrl}/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account/${id}`, config);
+    return accountCache[id].data;
 }
 
 async function AccountIdToEmployeeId(id) {
-    let res = await getAccountById(id)
-    return res.governmentId;
+    accountCache[id] = accountCache[id] ? accountCache[id] : await getAccountById(id);
+    return accountCache[id].governmentId;
+}
+
+async function EmployeeIdToAccountId(empId) {
+    if (accountIDCache[empId]) return accountIDCache[empId];
+    let accs = await getAllAcounts();
+    let result = null; 
+    for (const acc of accs.objects) {
+        let accId = acc.identity.split("account/")[1];
+        let accEmpId = await AccountIdToEmployeeId(accId);
+        accountIDCache[accEmpId] = accId;
+        if (accEmpId == empId ) result = accId; 
+    }
+    return result;
 }
 
 async function getAllSalesOrder() {
@@ -54,26 +70,35 @@ async function getSalesOrderPosistions(id) {
 }
 
 async function getAllSalesOrdersAsEvaluationRecord( params ) {
-
+    console.log(params)
     return getAllSalesOrder()
         .then(res => res.objects)
         .then(orders => orders.filter(order => order.isGift === false))
         .then(orders => orders.filter(order => order.totalBaseAmount != 0))
         //optional filters for Salesman and year
         .then(orders => {
-            if (params) {
-                return params.id ?
-                    orders.filter(order => order.salesRep['@href'].split("account/")[1] == params.id)
-                    : orders;
-            }
-            return orders;
-        })
-        .then(orders => {
             if(params) return params.year ? orders.filter(order => order.activeOn.split("-")[0].trim() == params.year) : orders
             return orders;
         })
         .then(async orders => {
-         
+            if (params) {
+                
+                if (params.id) {
+                    let accId = await EmployeeIdToAccountId(params.id);
+                    return orders.filter(order => accId == order.salesRep['@href'].split("account/")[1])  
+                }
+                return orders;
+                /*
+                return params.id ?
+                    orders.filter(async order => (await AccountIdToEmployeeId(order.salesRep['@href'].split("account/")[1])) == params.id)
+                    : orders;
+                    */
+            }
+            return orders;
+        })
+        .then(async orders => {
+            //console.log(orders)
+            if(!orders.length) return null;
             //Promises for loading data and Schema-transfrom preparation
             let salesmenPromises = [];
             let customerPromises = []; 

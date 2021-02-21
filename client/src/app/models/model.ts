@@ -3,7 +3,7 @@ import { Salesman } from "./salesman";
 export interface Record {
   _id : String,
   year: Number | any,
-  salesman: Salesman,
+  employeeId: Number,
   sales: Array<Sale>,
   status: String,
   totalBonusA: Number | any,

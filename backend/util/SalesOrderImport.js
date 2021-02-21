@@ -12,7 +12,7 @@ async function importSalesOrdersToMongoDB() {
        .then(records => {
             let promises = [];
             records.forEach(record => {
-                record.status = "imported " + new Date().toUTCString();
+                record.status = "imported: " + new Date().toUTCString();
                 record.totalBonusA = 0;
                 let p = evaluationRecord.create(record)
                 promises.push(p);
