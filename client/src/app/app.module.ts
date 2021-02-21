@@ -1,3 +1,6 @@
+//ThirdParty
+import { GoogleChartsModule } from 'angular-google-charts';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -45,6 +48,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     LoginComponent,
     RootComponent,
     DashboardComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatButtonModule,
     MatToolbarModule,
     MatCardModule,
-
+    GoogleChartsModule,
   ],
   entryComponents: [
     DialogEditSocialComponent,

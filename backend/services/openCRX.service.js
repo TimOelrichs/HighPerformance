@@ -70,7 +70,7 @@ async function getSalesOrderPosistions(id) {
 }
 
 async function getAllSalesOrdersAsEvaluationRecord( params ) {
-    console.log(params)
+   
     return getAllSalesOrder()
         .then(res => res.objects)
         .then(orders => orders.filter(order => order.isGift === false))
@@ -97,7 +97,7 @@ async function getAllSalesOrdersAsEvaluationRecord( params ) {
             return orders;
         })
         .then(async orders => {
-            //console.log(orders)
+         
             if(!orders.length) return null;
             //Promises for loading data and Schema-transfrom preparation
             let salesmenPromises = [];

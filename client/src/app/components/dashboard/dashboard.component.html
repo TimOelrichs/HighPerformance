@@ -1,1 +1,12 @@
-<p>dashboard works!</p>
+<div class="flex" *ngIf="!this.loadingER; else elseLoading">
+<google-chart title="Sales Per Year" [type]="SalesByYear.type" [columns]= "SalesByYear.columns"[data]="SalesByYear.data" [options]="SalesByYear.options" >
+</google-chart>
+<google-chart title="Total Sales" [type]="type" [data]="myData" >
+</google-chart>
+<google-chart title="Total Sales per Employee" [type]="type" [data]="myData" >
+</google-chart>
+
+</div>
+<ng-template #elseLoading>
+  <mat-spinner></mat-spinner>
+</ng-template>
