@@ -40,18 +40,18 @@ async function downloadImg(ids) {
     ]);
 
     
-    if (!fs.existsSync("../public")){
-        fs.mkdirSync("../public");  
+    if (!fs.existsSync("./public")){
+        fs.mkdirSync("./public");  
         console.log("created Public Folder")
     }
-    if (!fs.existsSync("../public/img")) {
-        fs.mkdirSync("../public/img");
+    if (!fs.existsSync("./public/img")) {
+        fs.mkdirSync("./public/img");
     }
 
     for (id of ids) {
         let viewSource = await page.goto(`https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/pim/viewPhoto/empNumber/${id}`);
              
-        fs.writeFileSync(`../public/img/${id}.png`, await viewSource.buffer())
+        fs.writeFileSync(`./public/img/${id}.png`, await viewSource.buffer())
         console.log(`Employee Photo ${id} was saved to public!`);
     }
 
