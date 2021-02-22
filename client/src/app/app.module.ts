@@ -27,7 +27,6 @@ import { MatInputModule} from '@angular/material/input';
 import { MatButtonModule} from '@angular/material/button';
 import { MatCardModule} from '@angular/material/card';
 import { MatToolbarModule} from '@angular/material/toolbar';
-import { RootComponent } from './components/root/root.component';
 
 import { AuthGuardService } from './guards/auth-guard.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -46,7 +45,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     DialogAddRecordComponent,
     DialogAddRecordContent,
     LoginComponent,
-    RootComponent,
     DashboardComponent,
 
   ],

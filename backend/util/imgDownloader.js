@@ -61,6 +61,3 @@ async function downloadImg(ids) {
 
 
 module.exports = downloadImg;
-
-
-//downloadImg();

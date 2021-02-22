@@ -8,7 +8,6 @@ const   express = require("express"),
 //import to MongoDB if DB is empty
 require('./util/DBimportAll');
 
-
 const app = express();
 
 var corsOptions = {
