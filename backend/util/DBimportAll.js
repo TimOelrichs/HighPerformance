@@ -11,25 +11,21 @@ async function importAll() {
 
     let salesmen = await salesmenModel.find({})  
     if (!salesmen.length) {
-        console.log("[Info] First run, make sure to be connected to H-BRS VPN to import Data")
-        //salesmen = await importSalesmen()
+        console.log("\x1b[42m[Info] First run, make sure to be connected to H-BRS VPN to import Data\x1b[0m");
         await importSalesmen();
         await downloadImg();
     } else {
-        console.log("[Ok] Salesmen Collection found!")
+        console.log("\x1b[32m[Ok] Salesmen Collection found!\x1b[0m")
     }
       
     let er = await evaluationRecord.find({})
-        if (!er.length) {
-                //er = await importSalesOrder();
-                await importSalesOrder();
-        } else console.log("[Ok] EvaluationRecord Collection found!")
+    if (!er.length) await importSalesOrder();
+    else console.log("\x1b[32m[Ok] EvaluationRecord Collection found!\x1b[0m");
     
     let users = await userModel.find({});
-    if (!users.length) {
-        await importUsers();
-    } else console.log("[Ok] Users Collection found!")
-    console.log("[Info] Init complete!")
+    if (!users.length) await importUsers();
+    else console.log("\x1b[32m[Ok] Users Collection found!")
+    console.log("\x1b[42m\x1b[37m[Info] Init complete!\x1b[0m")
 }
 
 importAll();

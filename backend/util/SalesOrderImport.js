@@ -7,7 +7,7 @@ const { model } = require('../models/Salesman');
 const evaluationRecord = require('../models/EvaluationRecord')
 
 async function importSalesOrdersToMongoDB() {
-    console.log("[Info] Ready to import EvaluationRecords to MongoDB")
+    console.log("\x1b[44m[Info] Ready to import EvaluationRecords to MongoDB\x1b[0m")
    await openCRXService.getAllSalesOrdersAsEvaluationRecord()
        .then(records => {
             let promises = [];

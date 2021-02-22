@@ -4,7 +4,7 @@ let { orangeHRMService } = require("../services/orangeHRM.service");
 const { model } = require('../models/User');
 
 async function importUsers() {
-    console.log("[Info] Creating UserDb...")
+    console.log("\x1b[44m[Info] Creating UserDb...\x1b[0m")
     try {
         let employees = await orangeHRMService.getOrangeHRMToken()
             .then(() => orangeHRMService.getAllEmployees());

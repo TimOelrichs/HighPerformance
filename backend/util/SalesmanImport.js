@@ -6,7 +6,7 @@ async function importSalesmenToMongoDB() {
     //console.log("[Info] Ready to import Salesman from OrangeHRM and openCRX to MongoDB");
     let salesmen = [];
 
-    console.log("[Info] ...Loading Salesman from OrangeHRM");
+    console.log("\x1b[44m[Info] ...Loading Salesman from OrangeHRM\x1b[0m");
     salesmen = await orangeHRMService.getOrangeHRMToken()
         .then(() => orangeHRMService.getAllEmployees())
         .then(res => res.filter((employee => employee.unit === "Sales")))

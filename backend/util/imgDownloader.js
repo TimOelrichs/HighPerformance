@@ -23,7 +23,7 @@ async function downloadImg(ids) {
         .then(res => Promise.all(res))
     
     if (!ids) return null;
-    console.log("[Info] ..scraping Employee Photos from OrangeHRM")
+    console.log("\x1b[44m[Info] ..scraping Employee Photos from OrangeHRM\x1b[0m")
     const browser = await puppeteer.launch({
         headless: true
     });
