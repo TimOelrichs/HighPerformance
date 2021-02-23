@@ -30,6 +30,7 @@ import { MatToolbarModule} from '@angular/material/toolbar';
 
 import { AuthGuardService } from './guards/auth-guard.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UseraccountViewComponent } from './components/useraccount-view/useraccount-view.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     DialogAddRecordContent,
     LoginComponent,
     DashboardComponent,
+    UseraccountViewComponent,
 
   ],
   imports: [

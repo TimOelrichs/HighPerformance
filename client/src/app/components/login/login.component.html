@@ -1,47 +1,25 @@
 
 <!--<div fxLayoutAlign="center center" fxFlexFill>-->
 <div class="container">
-  <!--<mat-card fxFlex="25">-->
     <mat-card class="card">
-    <!--<mat-toolbar color="primary">Login Page</mat-toolbar>-->
     <mat-card-title>Login</mat-card-title>
-    <mat-card-subtitle><br>user: admin<br>password: admin</mat-card-subtitle>
-    <!--<form fxLayoutAlign="stretch" fxLayout="column">-->
+
       <mat-card-content>
       <form class="flex">
       <mat-form-field >
-        <input matInput name="userEmail" placeholder="Username" id="inputEmail" [(ngModel)]="userEmail">
+        <input matInput name="userEmail" placeholder="User Id" id="inputEmail" [(ngModel)]="userEmail">
       </mat-form-field>
-
       <mat-form-field >
         <input matInput name="userPassword" type="password" placeholder="Password" id="inputPassword" [(ngModel)]="userPassword">
       </mat-form-field>
-
-
     </form>
-
   </mat-card-content>
+
   <mat-card-actions>
     <button mat-raised-button type="submit" (click)="login()">Login</button>
   </mat-card-actions>
+
   </mat-card>
 
 </div>
-
-<!--
-<form class="form-signin">
-  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-  <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="email" name="userEmail" id="inputEmail" [(ngModel)]="userEmail" class="form-control" placeholder="Email address" required autofocus>
-  <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" name="userPassword" id="inputPassword" [(ngModel)]="userPassword" class="form-control" placeholder="Password" required>
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-  </div>
-  <button class="btn btn-lg btn-primary btn-block" (click)="login()" type="button">Sign in</button>
-  <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
-</form>
-//-->
 

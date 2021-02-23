@@ -1,4 +1,5 @@
 let { orangeHRMService } = require("../services/orangeHRM.service");
+const bcrypt = require('bcrypt');
 
 //models for mongoDB RW-Access
 const { model } = require('../models/User');
@@ -17,13 +18,6 @@ async function importUsers() {
         hr = hr.map(emp => { emp["role"] = "ROLE_HR"; return emp; });
 
         let all = [...salesmen, ...ceo, ...hr];
-        
-        /*
-        userId: String,
-        fullName: String,
-        password: String,
-        role: String
-        */
         
         all = all.map(emp => ({
             userId: emp.code,
@@ -48,8 +42,5 @@ async function importUsers() {
    
 
 }
-
-//importUsers().then(res => console.log(res));
-
 
 module.exports = importUsers;

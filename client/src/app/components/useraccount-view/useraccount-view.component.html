@@ -1,0 +1,27 @@
+<div class="container">
+  <mat-card class="card">
+  <mat-card-title>Konto verwalten</mat-card-title>
+
+    <mat-card-content>
+      <h5>Password ändern:</h5>
+
+    <form class="flex">
+    <mat-form-field >
+      <input matInput name="oldPasswort" type="password" placeholder="User Id" id="oldPassword" [(ngModel)]="oldPassword">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput name="newPassword" type="password" placeholder="new Password" id="newPassword" [(ngModel)]="newPassword">
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput name="repeatPassword" type="password" placeholder="new Password" id="inputPassword" [(ngModel)]="repeatPassword">
+    </mat-form-field>
+  </form>
+</mat-card-content>
+
+<mat-card-actions>
+  <button mat-raised-button type="submit" (click)="submitPassword()">Submit</button>
+</mat-card-actions>
+
+</mat-card>
+
+</div>

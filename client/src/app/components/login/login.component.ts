@@ -19,6 +19,16 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.authService.issueToken(this.userEmail, this.userPassword)
+      .then((response) => {
+        //this.authService.setUserInfo({'user' : response['user']});
+        this.router.navigate(['']);
+
+      });
+  }
+
+  /*
+  login() {
     this.authService.validate(this.userEmail, this.userPassword)
       .then((response) => {
         this.authService.setUserInfo({'user' : response['user']});
@@ -26,5 +36,6 @@ export class LoginComponent implements OnInit {
 
       });
   }
+  */
 
 }

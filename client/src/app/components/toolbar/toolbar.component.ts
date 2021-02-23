@@ -62,7 +62,6 @@ export class ToolbarComponent implements OnInit {
   }
 
   filterMessages(data): [any] {
-
     let user = this.getUser();
     if (user.role == Role.User) {
       return data.filter(r => r.employeeId == user.userId && r.status?.startsWith("approved") && !r.readBy?.includes(user.userId))
@@ -73,7 +72,6 @@ export class ToolbarComponent implements OnInit {
     if (user.role == Role.HR) {
       return data.filter(r => (r.status?.startsWith("approved") || r.status.startsWith("confirmed") || r.status?.startsWith("declined") ) && !r.readBy?.includes(user.userId) )
     }
-
   }
 
 

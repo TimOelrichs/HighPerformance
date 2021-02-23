@@ -28,7 +28,7 @@ exports.findOne = (req, res) => {
     const id = req.params.id;
     console.log(`[GET] UserById ${id}`);
 
-    model.findOne({ orangeHRMId: id }).then(function (result) {
+    model.findOne({ userId: id }).then(function (result) {
         console.log(result)
         res.status(201).send(result);
     }).catch(() => {
@@ -38,15 +38,27 @@ exports.findOne = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const sid = req.params.sid;
-    console.log(`[PUT] UserById ${sid}`);
-    model.updateOne({ orangeHRMId: sid }, req.body).then((result) => {
+    const sid = req.params.id;
+    console.log(`[PUT] UserById ${id}`);
+    model.updateOne({ userId: id }, req.body).then((result) => {
         res.status(201).send(result);
     }).catch(() => {
         console.log(`Ohh, couldn't UPDATE id: ${sid}`);
         res.status(404).send("User not found!");
-    });
-    
+    }); 
+};
+
+exports.changePassword = (req, res) => {
+    const sid = req.params.id;
+    req.user.username
+    console.log(`[PUT] UserById ${id}`);
+  
+    model.updateOne({ userId: id }, req.body).then((result) => {
+        res.status(201).send(result);
+    }).catch(() => {
+        console.log(`Ohh, couldn't UPDATE id: ${sid}`);
+        res.status(404).send("User not found!");
+    }); 
 };
 
 exports.delete = (req, res) => {
