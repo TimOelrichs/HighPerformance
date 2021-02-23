@@ -9,10 +9,9 @@ exports.issueToken = (req, res) => {
     let password = req.body.password;
 
     model.findOne({ userId })
-        .then(user => {
-               
-            if (password === user.password) { 
-                console.log("[LOGIN] ", user);
+        .then(async user => {
+    
+            if(await user.validatePassword(password)){
                 // PRIVATE and PUBLIC key
                 var privateKEY  = fs.readFileSync('./config/private.key', 'utf8');
                 var publicKEY = fs.readFileSync('./config/public.key', 'utf8');
@@ -28,7 +27,6 @@ exports.issueToken = (req, res) => {
                     algorithm:  "RS256"
                 });
                 
-                console.log("send ok")
                 res.status(200).json({
                     token: token,
                     expiresIn: 120
@@ -43,18 +41,3 @@ exports.issueToken = (req, res) => {
         })
             
 }
-
-
-//Create and Save a new User
-exports.create = (req, res) => {
-    console.log("[Post]");
-    console.log(req.body);
-    model.create(req.body).then(function (result) {
-        res.status(201).send(result);
-    }).catch(() => {
-        console.log("Ohh, couldn't create ");
-        res.status(500).send("Oh No!");
-    }
-    );
-
-};

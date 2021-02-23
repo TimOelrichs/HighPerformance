@@ -16,13 +16,15 @@ module.exports = (app) => {
         res.status(200).json({"statusCode" : 200 ,"user" : req.user});
     });;
     */
-
+/*
     router.post('/logout',  (req, res) => {
         console.log("log out")
         req.logOut();
         res.status(200).json({"statusCode" : 200 });
     });
 
+    */
+    
     app.use('/', router);
 }
 
