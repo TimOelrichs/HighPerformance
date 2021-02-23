@@ -42,7 +42,7 @@ export class PerformaceViewComponent implements OnInit {
     this.salesmanService.getSalesmenById(this.smId)
       .subscribe(data => { this.salesman = data;},
         (err) => console.log(err),
-        () => { this.loadingSaleman = false; console.log("Load Salesman Done") })
+        () => { this.loadingSaleman = false;  })
 
   }
 
@@ -51,10 +51,9 @@ export class PerformaceViewComponent implements OnInit {
       .subscribe(data => {
         this.er = data || [];
         this.sortEvaluationRecords();
-
       },
         (err) => console.log(err),
-        () => { this.loadingER = false; console.log("EvaluationRecord loading Done") })
+        () => { this.loadingER = false; })
   }
 
 

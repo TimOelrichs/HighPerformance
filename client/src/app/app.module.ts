@@ -3,7 +3,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,6 +31,8 @@ import { MatToolbarModule} from '@angular/material/toolbar';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UseraccountViewComponent } from './components/useraccount-view/useraccount-view.component';
+
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -72,7 +74,10 @@ import { UseraccountViewComponent } from './components/useraccount-view/useracco
     DialogAddRecordComponent,
 
   ],
-  providers: [AuthGuardService],
+  providers: [
+    AuthGuardService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

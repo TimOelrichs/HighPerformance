@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
 export class SalesManListComponent implements OnInit {
 
   loading: boolean = true;
-  public salesmen;
+  public salesmen ;
 
   constructor(private salesmanService: SalesmanService) { }
 
@@ -21,9 +21,8 @@ export class SalesManListComponent implements OnInit {
 
   getSalesman(): void {
     this.salesmanService.getAllSalesmen()
-      .subscribe(data => { this.salesmen = data; this.loading = false; console.log(data) },
-        (err) => console.log(err),
-        () => console.log("Done"))
+      .subscribe(data => { this.salesmen = data; this.loading = false; },
+        (err) => console.log(err))
 
   }
 

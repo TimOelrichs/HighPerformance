@@ -25,37 +25,36 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-    const sid = req.params.sid;
-    console.log(`[GET] SalesmanById ${sid}`);
+    const id = req.params.id;
+    console.log(`[GET] SalesmanById ${id}`);
 
-    model.findOne({ employeeId: sid }).then(function (result) {
-        console.log(result)
+    model.findOne({ employeeId: id }).then(function (result) {
         res.status(201).send(result);
     }).catch(() => {
-        console.log(`Ohh, couldn't FIND id: ${sid}`);
+        console.log(`Ohh, couldn't FIND id: ${id}`);
         res.status(404).send("Salesman not found!");
     });
 };
 
 exports.update = (req, res) => {
-    const sid = req.params.sid;
-    console.log(`[PUT] SalesmanById ${sid}`);
-    model.updateOne({ employeeId: sid }, req.body).then((result) => {
+    const id = req.params.id;
+    console.log(`[PUT] SalesmanById ${id}`);
+    model.updateOne({ employeeId: id }, req.body).then((result) => {
         res.status(201).send(result);
     }).catch(() => {
-        console.log(`Ohh, couldn't UPDATE id: ${sid}`);
+        console.log(`Ohh, couldn't UPDATE id: ${id}`);
         res.status(404).send("Salesman not found!");
     });
     
 };
 
 exports.delete = (req, res) => {
-    const sid = req.params.sid;
-    console.log(`[DELETE] SalesmanById ${sid}`);
-    model.deleteOne({ employeeId: sid }).then(function (result) {
+    const id = req.params.id;
+    console.log(`[DELETE] SalesmanById ${id}`);
+    model.deleteOne({ employeeId: id }).then(function (result) {
         res.status(201).send(result);
     }).catch(() => {
-        console.log(`Ohh, couldn't DELETE id: ${sid}`);
+        console.log(`Ohh, couldn't DELETE id: ${id}`);
         res.status(404).send("Salesman not found!");
     });
 };

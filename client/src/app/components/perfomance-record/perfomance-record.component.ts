@@ -48,11 +48,10 @@ export class PerfomanceRecordComponent implements OnInit {
     let res = this.salesService.getAllSalesByYearAndID({ id: this.record.employeeId
       , year: this.record.year })
       .subscribe(data => {
-        console.log(data);
+
         if (Array.isArray(data)) {
           this.record.sales = data[0].sales;
           this.calcTotalSaleBonus();
-          console.log(this.record);
           this.openSnackBar("Updated Record", "Ok")
         } else {
           this.openSnackBar("No mathcing Sales found in openCRX", "Ok")
@@ -64,7 +63,7 @@ export class PerfomanceRecordComponent implements OnInit {
   }
 
   saveRecordToDB() {
-    //console.log(this.record)
+
     let id = this.authService.getUserID();
     this.record.readBy = [id]
     this.calcTotalBonus();
@@ -117,7 +116,7 @@ export class PerfomanceRecordComponent implements OnInit {
     this.calcTotalBonus();
     this.erService.publishEvaluationRecord(this.record._id, this.record)
     .subscribe(data => {
-      console.log(data)
+      //console.log(data)
     },
       (err) => this.openSnackBar("Error", err),
       () => { this.openSnackBar("published BonusSalary to OrangeHRM", "Ok") })
