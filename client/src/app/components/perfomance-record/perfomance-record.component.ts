@@ -95,6 +95,7 @@ export class PerfomanceRecordComponent implements OnInit {
   confirm() {
     this.record.status = "confirmed: " + this.authService.getUserName() + ", " + new Date().toUTCString();
     this.saveRecordToDB();
+    this.publishToOrangeHRM();
   }
   decline() {
     this.record.status = "declined: " + this.authService.getUserName() + ", " + new Date().toUTCString();
@@ -102,18 +103,17 @@ export class PerfomanceRecordComponent implements OnInit {
   }
 
    submitOrApprove() {
-    if (this.canApprove()) this.publishToOrangeHRM()
-    else {
-      this.record.status = "submitted: " + this.authService.getUserName() + ", " + new Date().toUTCString();
-      this.saveRecordToDB();
+
+     this.calcTotalBonus();
+     if(this.canApprove())  this.record.status = "approved: " + this.authService.getUserName() + ", " + new Date().toUTCString();
+     else this.record.status = "submitted: " + this.authService.getUserName() + ", " + new Date().toUTCString();
+     this.saveRecordToDB();
     }
-  }
+
 
 
   publishToOrangeHRM() {
-    //console.log(this.record)
-    this.record.status = "approved: "+ this.authService.getUserName() + ", " + new Date().toUTCString();
-    this.calcTotalBonus();
+
     this.erService.publishEvaluationRecord(this.record._id, this.record)
     .subscribe(data => {
       //console.log(data)

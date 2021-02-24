@@ -62,17 +62,19 @@ export class DashboardComponent implements OnInit {
         allSocialPerformance[sp.goalDescription].count++;
       });
     });
-
+    console.log("allSocialPerformance")
+    console.log(allSocialPerformance)
     data = Object.values(allSocialPerformance)
     data = data.map((e) => {
       return {
         goalDescription: e.goalDescription,
         targetValue: (e.targetValue / e.count),
-        actualValue: (e.targetValue / e.count),
+        actualValue: (e.actualValue / e.count),
         totalBonusB: (e.bonus / e.count),
         remarks: ""
       }
     })
+    console.log(data)
     this.socialAverageData = data;
   }
 
