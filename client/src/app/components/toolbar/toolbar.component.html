@@ -1,8 +1,13 @@
 <mat-toolbar class="flex-between">
+  <slot></slot>
   <a [routerLink]="['/']">Hoover High Perfomance</a>
   <span id="username" *ngIf="isLogedIn()">Welcome, {{this.getUserName()}}</span>
-
+  <span *ngIf="this.getUserRole()=='ROLE_CEO'" class="w-200 flex">
+    <a  [routerLink]="['/']">Salesmen</a>
+    <a  [routerLink]="['/dashboard']">Dashboard</a>
+  </span>
   <div class="w-120 flex" *ngIf="isLogedIn()">
+
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
       <mat-icon matBadge="{{getMessages()?.length}}" [matBadgeHidden]="!getMessages()?.length">notifications</mat-icon>
     </button>
@@ -33,6 +38,7 @@
         log out
        </button>
       </mat-menu>
+
 </div>
 
 </mat-toolbar>

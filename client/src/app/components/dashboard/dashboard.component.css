@@ -1,4 +1,9 @@
 .flex {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+mat-card {
+  width: 25vw;
 }

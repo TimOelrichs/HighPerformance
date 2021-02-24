@@ -1,12 +1,24 @@
 <div class="flex" *ngIf="!this.loadingER; else elseLoading">
-<google-chart title="Sales Per Year" [type]="SalesByYear.type" [columns]= "SalesByYear.columns"[data]="SalesByYear.data" [options]="SalesByYear.options" >
-</google-chart>
-<google-chart title="Total Sales" [type]="type" [data]="myData" >
-</google-chart>
-<google-chart title="Total Sales per Employee" [type]="type" [data]="myData" >
-</google-chart>
+<mat-card>
+  <mat-card-title>Average Social Perfomance:</mat-card-title>
+<app-social-table *ngIf="!this.loadingER" [socialPerformances]="this.socialAverageData"></app-social-table>
+</mat-card>
+<mat-card>
+  <mat-card-title>Top Salesmen:</mat-card-title>
+  <ul *ngIf="!this.loadingER && !this.loadingSM">
+    <li *ngFor="let sm of this.getTopSalesman();  let i = index">
+     {{(i+1)}}: {{sm.fullName}}, {{sm.year}}, Bonus: {{sm.totalBonus}}
+    </li>
+  </ul>
+ </mat-card>
+ <mat-card >
+  <mat-card-title>Total Sales:</mat-card-title>
+  <h4 *ngIf="!this.loadingER">HooverClean: {{getSales(null)?.HooverClean}}</h4>
+  <h4 *ngIf="!this.loadingER">HooverGo: {{getSales(null)?.HooverGo}}</h4>
+</mat-card>
 
 </div>
+
 <ng-template #elseLoading>
   <mat-spinner></mat-spinner>
 </ng-template>

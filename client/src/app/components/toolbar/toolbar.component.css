@@ -31,6 +31,10 @@ a {
   width: 120px;
 }
 
+.w-200 {
+  width: 200px;
+}
+
 .flex {
   display: flex;
   justify-content: space-between;
