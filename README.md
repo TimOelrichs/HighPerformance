@@ -2,7 +2,7 @@
 
 Team: Tim Oelrichs, Max Höfer
 
-Assignment No. 4.2
+Finale Abgabe
 
 Für die Systeme openCRX und OrangeHRM haben wir Services erstellt, welche auf die vorhandenen REST-APIs mittels axios zugreifen.
 
@@ -15,12 +15,19 @@ Des Weiteren werden die Services wie folgt genutzt:
 
 Achtung: Die Employee Photos werden mit Pupetter gescrapt. Puppeter benötigt etwas Zeit bei npm install
 
-Einfacher Login ist vorhanden.
+Es wird eine User-DB mit User für die Salesmen, die HR-Mitarbeitern und dem CEO angelegt. Das Default-Password ist "password" und wird gehashed gespeichert.
 
-user: admin
-password: admin
+Beispiel: Login Daten:
 
-TODO: User verwalten und LogOut
+CEO
+user: 98777
+password: password
+
+HR
+user: 90133
+passord: password
+
+Bei dem Client handelt es sich um eine Angular App
 
 Anwendung starten
 
@@ -32,5 +39,5 @@ npm run start
 cd ..
 cd client
 npm install
-npm run start
+ng serve
 ```
